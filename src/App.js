@@ -1,13 +1,16 @@
 import logo from './logo.svg';
 import { Navbar } from './components/Navbar/navbar';
-import { ListaProductos } from './components/Productos/productos';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Paginas } from './components/Paginas';
 import 'boxicons';
 
 function App() {
   return (
     <div className='App'>
-      <Navbar></Navbar>
-    <ListaProductos></ListaProductos>
+      <Router>
+        <Navbar/>
+        <Paginas/>
+      </Router>
     </div>
   );
 }
