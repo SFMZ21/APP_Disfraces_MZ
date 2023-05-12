@@ -1,17 +1,19 @@
-import logo from './logo.svg';
 import { Navbar } from './components/Navbar/navbar';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Paginas } from './components/Paginas';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Paginas } from './components/Paginas/Paginas';
 import 'boxicons';
+import { DataProvider } from './context/DataProvider';
 
 function App() {
   return (
-    <div className='App'>
-      <Router>
-        <Navbar/>
-        <Paginas/>
-      </Router>
-    </div>
+    <DataProvider>
+      <div className='App'>
+        <Router>
+          <Navbar/>
+          <Paginas/>
+        </Router>
+      </div>
+    </DataProvider>
   );
 }
 

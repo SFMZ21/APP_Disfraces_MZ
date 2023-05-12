@@ -17,6 +17,9 @@ export const Navbar =()=>{
                 <li>
                     <Link to="/productos">PRODUCTOS</Link>
                 </li>
+                <li>
+                    <Link to="/login">INICIAR SESION</Link>
+                </li>
             </ul>
             <div className="cart">
                 <box-icon name="cart"></box-icon>
