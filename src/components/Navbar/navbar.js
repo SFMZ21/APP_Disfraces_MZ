@@ -21,6 +21,9 @@ export const Navbar =()=>{
                     <Link to="/login">INICIAR SESION</Link>
                 </li>
             </ul>
+            <div className="user">
+                <span className="username">Sulma</span>
+            </div>
             <div className="cart">
                 <box-icon name="cart"></box-icon>
                 <span className="item_total">0</span>

@@ -9,7 +9,7 @@ export const ListaProductos =()=>{
 
     return(
         <>
-        <h1 className="title">PRODUCTOS</h1>
+        <h1 className="title">Productos</h1>
         <div className="productos">
             {
                 productos.map(producto=>(
