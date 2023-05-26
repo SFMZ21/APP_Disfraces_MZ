@@ -9,6 +9,7 @@ import {ListaProductos} from './components/Productos/productos';
 import {Register} from './components/Login/register';
 import {Inicio} from './components/Inicio/inicio';
 import { ProtectedRoute } from './components/Login/protectedRoutes';
+import { Carrito } from './components/Carrito/carrito';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/productos"  element={ <ProtectedRoute>
                 <Navbar />
                 <ListaProductos />
+                <Carrito/>
                 </ProtectedRoute>}></Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>
