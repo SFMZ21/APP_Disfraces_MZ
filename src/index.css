@@ -95,7 +95,7 @@ navbar .cart span{
   padding: 0rem;
   font-size: 1.5rem;
   font-weight: 700;
-  background-color: crimson;
+  background-color:rgb(175, 57, 92);
 }
 .username{
   font-weight: bold;
@@ -104,6 +104,19 @@ navbar .cart span{
   font-family: 'Shadows Into Light';
 
 }
+.logOut-btn{
+  background-color:#3d7983 ;
+  color:white;
+  width: 150px;
+  height:40px;
+  border:0;
+  border-radius: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
 /*----------LOGIN-------*/
 .login-general{
   display: flex;
@@ -134,7 +147,7 @@ navbar .cart span{
 }
 .title-login{
   font-size: 2rem;
-  padding: 0 0 3rem 0;
+  padding: 0 0 2rem 0;
   color:#77c2cf;
   font-family:'Shadows Into Light';
   font-size: 3rem;
@@ -189,6 +202,7 @@ navbar .cart span{
   font-weight: bold;
   font-size: 1.2rem;
   cursor: pointer;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, .2);
 }
 .login-btn2{
   background-color: #ffffff;
@@ -201,10 +215,38 @@ navbar .cart span{
   font-family: 'Poppins', sans-serif;
   font-style: italic;
   font-weight: bold;
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  margin-top: 0.7rem;
   cursor: pointer;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, .2);
 }
+.login-btn3{
+  display:flex;
+  background-color:#fff ;
+  color:#7a7a7a;
+  width: 300px;
+  height:40px;
+  border:0;
+  border-radius: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 0.7rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, .2);
+  align-items: center;
+  justify-content: space-around;
+  
+}
+.image-google{
+  display:flex;
+  margin-top: 0.3rem;
+  width: 25px;
+  height: 25px;
+  margin-left: 2px;
+  align-items: center;
+}
+
 .login-btn:hover{
   text-decoration: none;
   text-transform: uppercase;
@@ -215,9 +257,11 @@ navbar .cart span{
   text-transform: uppercase;
   color:#fff;
 }
-
-
-/*--------Inicio---------*/
+.login-btn3:hover{
+  text-decoration: none;
+  color:#fff;
+  background-color:#4285F4;
+}
 .inicio{
   display: flex;
   flex-direction: column;
@@ -227,7 +271,6 @@ navbar .cart span{
   justify-content: center;
   align-items: center;
 }
-
 .inicio h1{
   font-size: 2rem;
   color:#77c2cf;
