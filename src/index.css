@@ -385,7 +385,7 @@ navbar .cart span{
   background-color: rgba(0, 0, 0, .7);
   z-index: 2; /*superponer sobre otro elemento*/
   padding-bottom: 5rem;
-  /*visibility: hidden;*/
+  visibility: hidden;
 }
 .carrito{
   position:fixed;
@@ -441,6 +441,9 @@ navbar .cart span{
 .carrito_item img{
   width: 9rem;
 }
+.infoProducto{
+  padding: 0 0 0 1.2rem;
+}
 .carrito_item h3{
   margin-top: 1.5rem;
   font-weight: 600;
@@ -453,6 +456,8 @@ navbar .cart span{
   font-weight: bold;
   text-align: start;
   margin-left: -1rem;
+  padding: 0 0 0 1.2rem;
+
 }
 .carrito_item box-icon{
   fill:rgb(144, 185, 109);
@@ -460,16 +465,24 @@ navbar .cart span{
   height: 40px;
   margin-top: .3rem;
   cursor: pointer;
+  padding: 0 0 0 1rem;
+}
+.carrito_item box-icon:hover{
+  fill:rgba(101, 208, 8, 0.663);
 }
 .carrito_item .cantidad{
   font-size: 2rem;
   font-weight: bold;
+  padding: 0 0 0 1rem;
 }
 .carrito_item .remove_item box-icon{
   width: 60px;
   height: 80px;
   fill:#e26546;
   margin-top: 2rem;
+}
+.carrito_item .remove_item box-icon:hover{
+  fill:#a70000;
 }
 .carrito_footer{
   text-align: center;

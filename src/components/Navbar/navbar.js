@@ -1,9 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
 import Logo from "../../images/LogoHeader6.svg";
 import {Link} from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { DataContext } from "../../context/DataProvider";
 
 export const Navbar =()=>{
+    const value = useContext(DataContext);
+    const [menu,setMenu] = value.menu;
+    const [carrito] = value.carrito;
+
+    const toogleMenu =()=>{
+        setMenu(!menu) /*cambia el valor del menu */
+    }
+
+
     const {logOut,user}=useAuth();
     const cerrarSesion= async()=>{
         try {
@@ -33,9 +43,9 @@ export const Navbar =()=>{
             <div className="user">
                 <span className="username">Sulma</span>
             </div>
-            <div className="cart">
+            <div className="cart" onClick={toogleMenu}>
                 <box-icon name="cart"></box-icon>
-                <span className="item_total">0</span>
+                <span className="item_total">{carrito.length}</span>
 
             </div>
         </navbar>

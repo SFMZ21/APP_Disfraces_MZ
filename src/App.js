@@ -21,6 +21,7 @@ function App() {
                 <Route path="/" element={ <ProtectedRoute>
                 <Navbar />  
                 <Inicio />
+                <Carrito/>
                 </ProtectedRoute>} ></Route>
                 <Route path="/productos"  element={ <ProtectedRoute>
                 <Navbar />

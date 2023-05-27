@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import IMG from '../../images/Disfraz1.png';
+import {link} from "react-router-dom";
+import { DataContext } from "../../context/DataProvider";
 
 export const ProductoItem = ({
     id,
@@ -8,6 +10,10 @@ export const ProductoItem = ({
     image,
     category
 }) =>{
+
+    const value = useContext(DataContext);
+    const addCarrito = value.addCarrito;
+
     return(
         <div className="producto">
             <a href="#">
@@ -21,7 +27,7 @@ export const ProductoItem = ({
                 <p className="price">Q{price}</p>
             </div>
             <div className="button">
-                <button className="btn">Añadir al carrito</button>
+                <button className="btn" onClick={()=>addCarrito(id)}>Añadir al carrito</button>
                 <div>
                 <a href="#" className="btn">Vista</a>
                 </div> 
