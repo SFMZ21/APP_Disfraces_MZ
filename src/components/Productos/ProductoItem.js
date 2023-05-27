@@ -10,9 +10,11 @@ export const ProductoItem = ({
     image,
     category
 }) =>{
+    
 
     const value = useContext(DataContext);
     const addCarrito = value.addCarrito;
+    
 
     return(
         <div className="producto">

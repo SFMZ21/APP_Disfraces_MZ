@@ -407,6 +407,13 @@ navbar .cart span{
   color:rgb(144, 185, 109);
   font-family:'Shadows Into Light';
 }
+.carrito h1{
+  text-align: center;
+  font-size: 2.8rem;
+  color:black;
+  font-family:'Quicksand';
+  padding: 2.5rem 0 2rem 0;
+}
 .carritos.show{
   visibility: visible;
 }
@@ -510,6 +517,7 @@ navbar .cart span{
   background-color: #77c2cf;
   color: #fff;
 }
+
 
 /*-------------media-----------*/
 @media only screen and (max-width:1000px){
