@@ -10,7 +10,7 @@ import {Register} from './components/Login/register';
 import {Inicio} from './components/Inicio/inicio';
 import { ProtectedRoute } from './components/Login/protectedRoutes';
 import { Carrito } from './components/Carrito/carrito';
-import { Catalogo } from './components/Catalogo/Catalogo';
+import { ProductoCatalogo } from './components/Productos/productoCatalogo';
 
 function App() {
 
@@ -28,7 +28,11 @@ function App() {
                 <Navbar />
                 <ListaProductos />
                 <Carrito/>
-                <Catalogo/>
+                </ProtectedRoute>}></Route>
+                <Route path="/productos/:id"  element={ <ProtectedRoute>
+                <Navbar />
+                <Carrito/>
+                <ProductoCatalogo/>
                 </ProtectedRoute>}></Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>

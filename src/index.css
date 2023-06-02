@@ -517,6 +517,136 @@ navbar .cart span{
   background-color: #77c2cf;
   color: #fff;
 }
+/*----------Catalogo Productos-----*/
+.detalles{
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 12rem 1rem 0 1rem;
+  box-sizing: border-box;
+}
+.detalles h2{
+  font-size: 2.5rem;
+  font-family: 'Poppins';
+  width: 100%;
+  max-width: 1000px;
+  margin:0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 0 5rem;
+}
+.detalles h3{
+  font-size: 0.7rem;
+  font-family: 'Poppins';
+  width: 100%;
+  max-width: 1000px;
+  margin:10px auto;
+  align-items: center;
+  justify-content: center;
+}
+.detalles .price{
+  font-size: 3rem;
+  width: 100%;
+  color:black;
+  font-weight: 700;
+  padding: 0 0 0 5rem;
+}
+.detalles .precio_tamaño{
+  display: flex;
+  flex-direction: row;
+  background-color: #daecec;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  
+}
+.detalles .reservar{
+  display: flex;
+  flex-direction: column;
+  
+}
+.detalles button.btn{
+  max-width: 300px;
+  margin:  0 0 0 2rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  outline: 0;
+  background-color: #77c2cf;
+  font-size: 1.6rem;
+  color:#fff;
+  font-family: 'Poppins';
+  font-weight: 600;
+  border-radius: 8px;
+  cursor:pointer;
+}
+.detalles button{
+  background-color: #77c2cf;
+}
+.detalles .calendario{
+  width: 300px;
+  height: 270px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 0 5rem;
+}
+.detalles .contenedorImg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.detalles img{
+  display: flex;
+  min-height: 300px;
+  object-fit: contain;
+  margin-top:-1rem;
+  z-index:-1;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.detalles .grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 1rem;
+  max-width: 350px;
+}
+.detalles .grid > .nuevo, .size{
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 2rem;
+  font-weight: 600;
+  color:rgb(22, 21, 21);
+
+}
+.detalles .grid .size select{
+  border: none;
+  outline: 0;
+  font-size: 2rem;
+  cursor:pointer;
+  background-color: #daecec;
+  width: 50px;
+}
+.detalles input{
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+.detalles .description{
+  font-size: 1.1rem;
+  max-width: 1300px;
+  width: 100%;
+  letter-spacing: 1px;
+  color:#292929;
+  margin: 0 auto;
+  font-weight: 500;
+  padding: 0 0 10rem 0;
+}
+.detalles .description b{
+  font-size: 1.4rem;
+  color: black;
+}
 
 
 /*-------------media-----------*/
