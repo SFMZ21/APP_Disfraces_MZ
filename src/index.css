@@ -100,12 +100,12 @@ navbar .cart span{
 .username{
   font-weight: bold;
   color: white;
-  font-size: 2rem;
-  font-family: 'Shadows Into Light';
+  font-size: 1.6rem;
+  font-family: 'Quicksand';
 
 }
 .logOut-btn{
-  background-color:#3d7983 ;
+  background-color:#77c2cf;
   color:white;
   width: 150px;
   height:40px;
@@ -114,6 +114,11 @@ navbar .cart span{
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
   font-size: 1.2rem;
+  cursor: pointer;
+}
+.logOut-btn:hover{
+  background-color:#3d7983 ;
+  color:white;
   cursor: pointer;
 }
 

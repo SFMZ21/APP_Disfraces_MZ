@@ -1,6 +1,5 @@
 import React from "react";
 import IMGLOGO from '../../images/BienvenidaHada.svg';
-
 export const Inicio=()=>{
   
     return(

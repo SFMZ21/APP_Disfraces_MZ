@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Card from '../../images/BienvenidaHada.svg';
 import { DataContext } from '../../context/DataProvider';
 
@@ -7,6 +7,11 @@ export const Carrito=()=>{
     const [menu,setMenu]= value.menu;
     const [carrito,setCarrito]=value.carrito;
     const [total] =value.total;
+
+   
+    const handleClick = () => {
+        window.alert('¡PROXIMAMENTE IMPLEMENTACIÓN DE MÉTODO DE PAGO!');
+    };
 
     const tooglefalse =()=>{
         setMenu(false);
@@ -84,7 +89,8 @@ export const Carrito=()=>{
             
                 <div className='carrito_footer'>
                     <h3>Total:{total}</h3>
-                    <button className='btn-pago'>Pagar</button>
+                    <button className='btn-pago' onClick={handleClick}>Pagar</button>
+                    
                 </div>
             </div>
         </div>

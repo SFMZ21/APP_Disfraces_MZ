@@ -41,7 +41,7 @@ export const Navbar =()=>{
             </ul>
             <button type="submit" className="logOut-btn" onClick={cerrarSesion}>CERRAR SESION</button>
             <div className="user">
-                <span className="username">Sulma</span>
+                <span className="username">{user.displayName}</span>
             </div>
             <div className="cart" onClick={toogleMenu}>
                 <box-icon name="cart"></box-icon>

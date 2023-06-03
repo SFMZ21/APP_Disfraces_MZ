@@ -17,7 +17,7 @@ var data = {
         price: 150,
         image: require('./images/Disfraz2.png'),
         category: "Superheroes",
-        img1: "https://stockx-360.imgix.net/Nike-Dunk-Low-Off-White-Pine-Green/Images/Nike-Dunk-Low-Off-White-Pine-Green/Lv2/img",
+        img1: "https://static1.funidelia.com/497114-f6_big2/disfraz-de-superman-deluxe-para-nino-.jpg",
         img2: ".jpg?auto=format,compress&q=90&updated_at=1606319825&w=1000",
         cantidad: 1
       },
