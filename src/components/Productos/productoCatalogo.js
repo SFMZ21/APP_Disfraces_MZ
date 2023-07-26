@@ -1,13 +1,15 @@
 import React, {useContext,useState,useEffect} from 'react';
+import CarouselSlider from '../Productos/carouselSlider';
 import {DataContext} from "../../context/DataProvider";
 import { ProductoItem } from "./ProductoItem";
 import {useParams} from 'react-router-dom';
 import DatePicker from 'react-datepicker';
-import { addDays } from 'date-fns';
+import { addDays, differenceInDays } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from  "react-datepicker";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
+
 
 export const ProductoCatalogo=()=> {
 
@@ -28,6 +30,17 @@ export const ProductoCatalogo=()=> {
     setEndDate(end);
   };
 
+  const isDateRangeValid = (start, end) => {
+    // Define el máximo número de días permitidos para la reserva
+    const maxDaysForReservation = 7;
+    // Calcula la diferencia en días entre la fecha de inicio y la fecha de fin
+    const differenceDays = differenceInDays(end, start);
+    // Comprueba si la diferencia en días está dentro del límite permitido
+    return differenceDays >= 0 && differenceDays <= maxDaysForReservation;
+  };
+
+
+
   /**Carrito */
   const addCarrito = value.addCarrito;
 
@@ -42,17 +55,6 @@ export const ProductoCatalogo=()=> {
     })
   },[params.id,productos]);
 
-  useEffect(()=>{
-    const values = `${detalle.img1}${url}${detalle.img2}`
-    setImages(values);
-  },[url,params.id])
-
-  const handleInput=e=>{
-    const number = e.target.value.toString().padStart(2,'01')
-    setUrl(number)
-    console.log(number)
-  }
-  if(detalle.length<1) return null;
   
         
   return (
@@ -66,13 +68,7 @@ export const ProductoCatalogo=()=> {
             <div className='grid'>
               <div className='size'>
                 <p>Tamaño</p>
-                <select placeholder='Tamaño'>
-                  <option value="1">5</option>
-                  <option value="1">6</option>
-                  <option value="1">7</option>
-                  <option value="1">8</option>
-                  <option value="1">9</option>
-                </select>
+                
               </div>
           </div>
           </div>
@@ -94,16 +90,22 @@ export const ProductoCatalogo=()=> {
                   inline/>
               </div>
             </div>
-            <button className='btn' onClick={()=>addCarrito(detalle.id)}>Añadir al carrito</button>
+            <button className='btn'  onClick={() => {
+                  // Verifica si el rango de fechas seleccionado es válido antes de agregar el producto al carrito
+                  if (isDateRangeValid(startDate, endDate)) {
+                    addCarrito(detalle.id);
+                  } else {
+                     // Si el rango de fechas no es válido, muestra un alert al usuario
+                    alert('El rango de fechas seleccionado no es válido. Por favor, selecciona un rango de fechas de hasta 7 días.');
+                  }
+            }}>Añadir al carrito</button>
           </div>
           
-          <div className='contenedorImg'>
-
-            {
-              url ? <img src={images} alt={detalle.title} /> :<img src={detalle.image} alt={detalle.title} />
-            }
+          <div className='carousel-container'>
+          <CarouselSlider images={[detalle.image, detalle.img1, detalle.img2, detalle.img3]} />
           </div>
-            <input type="range" min="1" max="5" onChange={handleInput}></input>
+        
+         
             <div className='description'>
               <p><b>Disfraz perfecto para la época de carnaval,Disfraz perfecto para la época de carnavaDisfraz perfecto para la época de carnavaDisfraz perfecto para la época de carnava</b></p>
             </div>

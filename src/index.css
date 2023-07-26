@@ -105,7 +105,8 @@ navbar .cart span{
 
 }
 .logOut-btn{
-  background-color:#77c2cf;
+  background-color:#77c2cf
+  ;
   color:white;
   width: 150px;
   height:40px;
@@ -594,11 +595,28 @@ navbar .cart span{
   align-items: center;
   padding: 0 0 0 5rem;
 }
-.detalles .contenedorImg{
+.carousel-container {
+  margin: 20px 0;
+  
+}
+.image-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  max-height: 1100px; /* Ajusta el alto máximo para evitar que las imágenes sean demasiado grandes */
 }
+
+.image-container img {
+  padding-left: 10rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 50%;
+  max-height: 50%;
+  object-fit: contain; /* Ajusta la imagen manteniendo su relación de aspecto */
+}
+
+
+
 .detalles img{
   display: flex;
   min-height: 300px;
@@ -651,6 +669,13 @@ navbar .cart span{
 .detalles .description b{
   font-size: 1.4rem;
   color: black;
+}
+
+.slider-container {
+  max-width: 2300px;
+  max-height: 2000px;
+  margin: 0 auto;
+  padding-left: 25%;
 }
 
 

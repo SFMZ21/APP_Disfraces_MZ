@@ -14,6 +14,10 @@ export const Register =() => {
 
   const navigate = useNavigate();
 
+  const navigateLogin =()=>{
+    navigate('/login');
+  }
+
   const manejadorFormulario = ({target:{name,value}})=>{
     setUser({...user,[name]:value})
   }
@@ -45,7 +49,7 @@ export const Register =() => {
             <input type="password" className="form-control" id="password" name="password" onChange={manejadorFormulario} required autoComplete="off" placeholder="Ingresa tu contraseña" />
           </div>
           <button type="submit" className="login-btn">Registrar</button>
-          
+          <button className="login-btn2"onClick={navigateLogin}>Tengo una cuenta existente</button>
         </form>
 
           <div class="logo-login">

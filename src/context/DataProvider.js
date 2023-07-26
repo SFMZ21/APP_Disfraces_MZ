@@ -1,5 +1,7 @@
 import React, {createContext, useState, useEffect } from "react";
 import Data from '../Data.js'
+import { firestore } from "../firebase.js";
+import { collection,getDocs } from "firebase/firestore";
 export const DataContext = createContext();
 
 export const DataProvider = (props) =>{
@@ -9,12 +11,18 @@ export const DataProvider = (props) =>{
     const [total,setTotal] =useState(0);
 
     useEffect(()=>{
-        const producto = Data.items
-        if(producto){
-            setProductos(producto)
-        }else{
-            setProductos([])
+       const obtenerDatos = async()=>{
+        try{
+            const productsCollection = collection(firestore,'products');
+            const snapshot = await getDocs(productsCollection);
+            const data= snapshot.docs.map((doc)=>doc.data());
+            setProductos(data);
+
+        }catch(e){
+            console.error("Algo salió mal...",e);
         }
+       };
+       obtenerDatos();
         
 
     },[])

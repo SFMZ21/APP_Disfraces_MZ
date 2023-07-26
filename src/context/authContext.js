@@ -14,13 +14,13 @@ export function AuthProvider({children}){
     const[user,setUser] = useState(null);
     const[loading,setLoading]= useState(true);
 
-    async function registro(email,password){
+    async function registro(email,password,isAdmin=false){
         const infoUser = await createUserWithEmailAndPassword(auth,email,password).then((infoUser)=>{
             return infoUser;
         });
 
-        const docuRef = doc(firestore,`users/${infoUser.user.uid}`);
-        setDoc(docuRef,{Correo:email, Rol:"usuario"})
+        const docuRef = doc(firestore,`users/${email}`);
+        setDoc(docuRef,{ isAdmin})
     }
 
     const login =(email,password)=>{
@@ -30,9 +30,10 @@ export function AuthProvider({children}){
     const logOut =()=> signOut(auth);
 
     async function getRol(uid) {
-        const docuRef = doc(firestore, `usuarios/${uid}`);
+        const docuRef = doc(firestore, `users/${uid}`);
         const docuCifrada = await getDoc(docuRef);
         const infoFinal = docuCifrada.data().rol;
+        console.log(infoFinal);
         return infoFinal;
       }
 
@@ -42,8 +43,8 @@ export function AuthProvider({children}){
             return infoUser;
         });
 
-        const docuRef = doc(firestore,`users/${infoUser.user.uid}`);
-        setDoc(docuRef,{Correo:infoUser.user.email, Rol:"usuario"})
+        const docuRef = doc(firestore,`users/${infoUser.user.email}`);
+        setDoc(docuRef,{Correo:infoUser.user.email, isAdmin:false})
     }
     
       function setUserWithFirebaseAndRol(usuarioFirebase) {
@@ -54,7 +55,7 @@ export function AuthProvider({children}){
             rol: rol,
           };
           setUser(userData);
-          console.log("userData fianal", userData);
+          console.log("userData final", userData);
         });
       }
 
