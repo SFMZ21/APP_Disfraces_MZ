@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Card from '../../images/BienvenidaHada.svg';
 import { DataContext } from '../../context/DataProvider';
+import ReservationForm from './reservationForm';
 
 export const Carrito=()=>{
     const value = useContext(DataContext);
@@ -8,10 +9,6 @@ export const Carrito=()=>{
     const [carrito,setCarrito]=value.carrito;
     const [total] =value.total;
 
-   
-    const handleClick = () => {
-        window.alert('¡PROXIMAMENTE IMPLEMENTACIÓN DE MÉTODO DE PAGO!');
-    };
 
     const tooglefalse =()=>{
         setMenu(false);
@@ -27,13 +24,17 @@ export const Carrito=()=>{
     }
 
     const suma =id =>{
-        carrito.forEach(item =>{
-            if(item.id === id){
-                item.cantidad +=1;
+        carrito.forEach((item) => {
+            if (item.id === id) {
+              if (item.cantidad < item.enStock) {
+                item.cantidad = item.cantidad + 1;
+              } else {
+                alert("No hay suficiente stock disponible.");
+              }
             }
-            setCarrito([...carrito])
-        })
-    }
+          });
+          setCarrito([...carrito]);
+    };
 
     const removeProducto =id =>{
         if(window.confirm("¿Quieres eliminar el producto del carrito?")){
@@ -46,8 +47,22 @@ export const Carrito=()=>{
             })
             setCarrito([...carrito])     
         }
-    
     }
+
+    /**función de mostrar formulario de reserva */
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => {
+        if (carrito.length === 0) {
+            alert("Aún no hay productos en el carrito");
+          } else {
+            setShowModal(true);
+          }
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
     
 
     const show1 = menu ? "carritos show": "carritos";
@@ -69,6 +84,7 @@ export const Carrito=()=>{
                         <img src={producto.image} alt=""/>
                         <div className='infoProducto'>
                             <h3>{producto.title}</h3>
+                            <h3>Talla:{producto.size}</h3>
                             <p className='price'>Q{producto.price}</p>
                         </div>
                         <div>
@@ -89,7 +105,11 @@ export const Carrito=()=>{
             
                 <div className='carrito_footer'>
                     <h3>Total:{total}</h3>
-                    <button className='btn-pago' onClick={handleClick}>Pagar</button>
+                    <div>
+                        <button className='btn-pago' onClick={handleOpenModal}>Reservar</button>
+                        {showModal && <ReservationForm onClose={handleCloseModal} />}
+                    </div>
+                    
                     
                 </div>
             </div>

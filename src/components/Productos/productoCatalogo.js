@@ -67,8 +67,12 @@ export const ProductoCatalogo=()=> {
             <p className='price'>Q{detalle.price}</p>
             <div className='grid'>
               <div className='size'>
-                <p>Tamaño</p>
-                
+                <p>Talla</p>
+                <h2>{detalle.size}</h2>
+              </div>
+              <div className='stock'>
+                <p>Disponible</p>
+                <h2>{detalle.enStock}</h2>
               </div>
           </div>
           </div>
@@ -124,6 +128,7 @@ export const ProductoCatalogo=()=> {
                   image= {producto.image} 
                   category ={producto.category}
                   cantidad={producto.cantidad}
+                  size={producto.size}
                   />
                 }
               } )

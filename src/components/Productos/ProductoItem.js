@@ -8,12 +8,14 @@ export const ProductoItem = ({
     title,
     price,
     image,
+    size,
     category
 }) =>{
     
 
     const value = useContext(DataContext);
     const addCarrito = value.addCarrito;
+    console.log(DataContext, 'tamaño');
     
 
     return(
@@ -26,6 +28,7 @@ export const ProductoItem = ({
             <div className="producto_footer">
                 <h1>{title}</h1>
                 <p>{category}</p>
+                <h1>Talla:{size}</h1>
                 <p className="price">Q{price}</p>
             </div>
             <div className="button">
