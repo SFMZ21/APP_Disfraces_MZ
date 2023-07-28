@@ -8,7 +8,7 @@ const ReservationForm = ({ onClose }) => {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [estado] = "en Alquiler";
+  const estado = "en Alquiler";
 
   const contextData = useContext(authContext);
   const carritoData =useContext(DataContext);
@@ -17,8 +17,8 @@ const ReservationForm = ({ onClose }) => {
   const [endDate] = carritoData.endDate;
 
   const [total] =carritoData.total;
-  const [carrito]=carritoData.carrito;
-  const [email] = contextData.user.email;
+  const [carrito, setCarrito]=carritoData.carrito;
+  const email = contextData.user.email;
   
   
   console.log(contextData.user.email);
@@ -59,12 +59,8 @@ const ReservationForm = ({ onClose }) => {
         });
       });
   
-
-      /*const docRef= doc(firestore,"products","3");
-      updateDoc(docRef,{
-        enStock:increment(-1),
-        enUso:increment(1)
-      })*/
+      // Limpiar el carrito
+      setCarrito([]);
 
       // Limpiar campos
       setNombre("");
@@ -73,6 +69,11 @@ const ReservationForm = ({ onClose }) => {
 
       // Cerrar el formulario modal
       onClose();
+      // Actualizar la página después de un breve retardo
+      setTimeout(() => {
+        window.location.reload();
+      }, 500); // Esperar 500ms antes de recargar la página
+
     } catch (error) {
       console.error("Error al guardar la reserva:", error);
       // Mostrar mensaje de error si es necesario

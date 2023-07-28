@@ -672,10 +672,12 @@ navbar .cart span{
 }
 
 .slider-container {
-  max-width: 2300px;
-  max-height: 2000px;
-  margin: 0 auto;
-  padding-left: 25%;
+  width: 1200px; /* Ancho de 1200px */
+  height: 1000px; /* Alto de 800px */
+  max-width: 100%; /* Asegura que no supere el ancho máximo de 2300px */
+  max-height: 100%; /* Asegura que no supere el alto máximo de 2000px */
+  margin: 0 auto ; /* Centrar horizontalmente */
+  margin-bottom: 20px;
 }
 
 /****formulario de reserva******/
@@ -735,6 +737,29 @@ navbar .cart span{
 }
 .modal button:hover {
   background-color: #0056b3;
+}
+/**pedidos by user*/
+.pedidos-container {
+  width: 1200px; /* Tamaño de 1500px */
+  max-width: 100%; /* Asegura que no supere el ancho máximo de la pantalla */
+  margin: 0 auto; /* Centrar horizontalmente */
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Para ocupar todo el alto de la pantalla */
+  background-color: #f0f0f0; /* O el color de fondo que desees */
+}
+
+/* Estilos adicionales para los detalles del pedido, si es necesario */
+.pedidos-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.pedidos-container li {
+  margin-bottom: 10px;
 }
 
 

@@ -1,6 +1,7 @@
 import React from "react";
 import ImageSlider from '../Inicio/slider';
 import IMGLOGO from '../../images/BienvenidaHada.svg';
+import PedidosByUser from "./pedidosByUser";
 export const Inicio=()=>{
     
   
@@ -10,6 +11,8 @@ export const Inicio=()=>{
 
             <div>
                 <ImageSlider />
+                <PedidosByUser></PedidosByUser>
+                
             </div>
         </div>
     )
