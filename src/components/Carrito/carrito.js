@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Card from '../../images/BienvenidaHada.svg';
 import { DataContext } from '../../context/DataProvider';
 import ReservationForm from './reservationForm';
@@ -8,6 +8,12 @@ export const Carrito=()=>{
     const [menu,setMenu]= value.menu;
     const [carrito,setCarrito]=value.carrito;
     const [total] =value.total;
+
+    const [date, setDate] = useState(new Date());
+    const [startDate, setStartDate] = value.startDate;
+    const [endDate, setEndDate] = value.endDate;
+
+
 
 
     const tooglefalse =()=>{
@@ -64,6 +70,14 @@ export const Carrito=()=>{
         setShowModal(false);
     };
     
+     // Limpia las fechas después de eliminar productos del carrito
+    useEffect(() => {
+    if (carrito.length === 0) {
+      setStartDate(null);
+      setEndDate(null);
+    }
+    }, [carrito]);
+
 
     const show1 = menu ? "carritos show": "carritos";
     const show2 = menu ? "carrito show": "carrito";
@@ -104,6 +118,12 @@ export const Carrito=()=>{
                       
             
                 <div className='carrito_footer'>
+                    <div>
+                        {/* Mostrar las fechas seleccionadas en el carrito */}
+                        <p>Fecha de inicio: {startDate ? startDate.toLocaleDateString("es"): "No seleccionada"}</p>
+                        <p>Fecha de fin: {endDate ? endDate.toLocaleDateString("es") : "No seleccionada"}</p>
+                    </div>
+
                     <h3>Total:{total}</h3>
                     <div>
                         <button className='btn-pago' onClick={handleOpenModal}>Reservar</button>

@@ -22,12 +22,16 @@ export const ProductoCatalogo=()=> {
   let item =0;
 
   /*Calendario */
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
-  const onChange = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+  const [date, setDate] = useState(new Date());
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState();
+
+  const handleChange = (range) => {
+    const [startDate, endDate] = range;
+    setStartDate(startDate);
+    setEndDate(endDate);
+    console.log(startDate,'inicio');
+    console.log(endDate,'fin')
   };
 
   const isDateRangeValid = (start, end) => {
@@ -84,8 +88,8 @@ export const ProductoCatalogo=()=> {
                   className='my-datepicker'
                   showIcon
                   locale="es"
-                  selected={startDate}
-                  onChange={onChange}
+                  selected={date}
+                  onChange={handleChange}
                   startDate={startDate}
                   endDate={endDate}
                   excludeDates={[addDays(new Date(), 1), addDays(new Date(), 5)]}
@@ -97,7 +101,7 @@ export const ProductoCatalogo=()=> {
             <button className='btn'  onClick={() => {
                   // Verifica si el rango de fechas seleccionado es válido antes de agregar el producto al carrito
                   if (isDateRangeValid(startDate, endDate)) {
-                    addCarrito(detalle.id);
+                    addCarrito(detalle.id, startDate,endDate);
                   } else {
                      // Si el rango de fechas no es válido, muestra un alert al usuario
                     alert('El rango de fechas seleccionado no es válido. Por favor, selecciona un rango de fechas de hasta 7 días.');

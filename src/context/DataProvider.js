@@ -10,6 +10,10 @@ export const DataProvider = (props) =>{
     const [carrito,setCarrito]=useState([]);
     const [total,setTotal] =useState(0);
 
+    /**fechas para el carrito */
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null);
+
     useEffect(()=>{
        const obtenerDatos = async()=>{
         try{
@@ -27,7 +31,7 @@ export const DataProvider = (props) =>{
 
     },[])
 
-    const addCarrito =(id)=>{
+    const addCarrito =(id, startDate, endDate)=>{
         const check =carrito.every(item=>{
             return item.id !== id;
         })
@@ -39,6 +43,10 @@ export const DataProvider = (props) =>{
         }else{
             alert("El producto se ha añadido al carrito")
         }
+
+        /**enviar fechas al carrito */
+        setStartDate(startDate);
+        setEndDate(endDate);
     }
 
     useEffect(()=>{
@@ -68,7 +76,9 @@ export const DataProvider = (props) =>{
         menu:[menu,setMenu],
         addCarrito: addCarrito,
         carrito:[carrito,setCarrito],
-        total:[total,setTotal]
+        total:[total,setTotal],
+        startDate:[startDate,setStartDate],
+        endDate:[endDate, setEndDate]
     }
 
     return(
