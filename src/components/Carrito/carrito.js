@@ -13,9 +13,6 @@ export const Carrito=()=>{
     const [startDate, setStartDate] = value.startDate;
     const [endDate, setEndDate] = value.endDate;
 
-
-
-
     const tooglefalse =()=>{
         setMenu(false);
     }

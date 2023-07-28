@@ -1,4 +1,6 @@
 import React, { useState, useContext } from "react";
+import { collection, addDoc,query, where, getDocs,doc, updateDoc, increment, FieldValue  } from "firebase/firestore";
+import { firestore } from "../../firebase";
 import { authContext, useAuth } from "../../context/authContext";
 import { DataContext } from "../../context/DataProvider";
 
@@ -6,20 +8,75 @@ const ReservationForm = ({ onClose }) => {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [telefono, setTelefono] = useState("");
+  const [estado] = "en Alquiler";
 
   const contextData = useContext(authContext);
   const carritoData =useContext(DataContext);
-  console.log(contextData.user);
-  console.log(carritoData.carrito);
+
+  const [startDate] = carritoData.startDate;
+  const [endDate] = carritoData.endDate;
+
+  const [total] =carritoData.total;
+  const [carrito]=carritoData.carrito;
+  const [email] = contextData.user.email;
+  
+  
+  console.log(contextData.user.email);
+  console.log(carrito);
+  console.log(total)
+  console.log(startDate);
+  console.log(endDate);
   
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Lógica de reserva...
-    // Limpiar campos...
-    setNombre("");
-    setApellido("");
-    setTelefono("");
+
+    try {
+      // Crear un objeto con los datos de la reserva
+      const reserva = {
+        nombre,
+        apellido,
+        telefono,
+        estado,
+        email,
+        carrito,
+        total,
+        startDate,
+        endDate,
+      };
+
+      // Guardar la reserva en la colección "pedidos"
+      await addDoc(collection(firestore,"pedidos"),{
+        reserva,
+      });
+
+      carrito.map( (producto) => {
+        console.log(producto,'producto');
+        const docRef = doc(firestore, "products", producto.id.toString());
+          updateDoc(docRef, {
+          enStock: increment(-producto.cantidad),
+          enUso: increment(producto.cantidad),
+        });
+      });
+  
+
+      /*const docRef= doc(firestore,"products","3");
+      updateDoc(docRef,{
+        enStock:increment(-1),
+        enUso:increment(1)
+      })*/
+
+      // Limpiar campos
+      setNombre("");
+      setApellido("");
+      setTelefono("");
+
+      // Cerrar el formulario modal
+      onClose();
+    } catch (error) {
+      console.error("Error al guardar la reserva:", error);
+      // Mostrar mensaje de error si es necesario
+    }
   };
 
   return (
@@ -66,7 +123,7 @@ const ReservationForm = ({ onClose }) => {
                 required
                 />
             </div>
-          <button type="submit">Confirmar reserva</button>
+          <button type="submit" onChange={handleSubmit}>Confirmar reserva</button>
         </form>
       </div>
     </div>
