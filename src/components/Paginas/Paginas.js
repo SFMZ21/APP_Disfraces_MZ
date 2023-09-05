@@ -5,6 +5,7 @@ import {Inicio} from "../Inicio/inicio";
 import { ListaProductos } from "../Productos/productos";
 import { Login } from "../Login/login";
 import { Register } from "../Login/register";
+import {ProductoNuevo} from "../Productos/productoNuevo";
 
 export const Paginas =()=>{
     const [logged, setLogged] = useState(true);
@@ -16,6 +17,7 @@ export const Paginas =()=>{
                 <Route path="/productos"  exact component={ListaProductos}></Route>
                 <Route path="/login" exact component={Login}></Route>
                 <Route path="/register" exact component={Register} ></Route>
+                <Route path="/inventario" exact component={ProductoNuevo}></Route>
                 
         </section>
     )

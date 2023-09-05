@@ -673,11 +673,15 @@ navbar .cart span{
 
 .slider-container {
   width: 1200px; /* Ancho de 1200px */
-  height: 1000px; /* Alto de 800px */
   max-width: 100%; /* Asegura que no supere el ancho máximo de 2300px */
-  max-height: 100%; /* Asegura que no supere el alto máximo de 2000px */
   margin: 0 auto ; /* Centrar horizontalmente */
   margin-bottom: 20px;
+}
+.slider-image {
+  align-items: center;
+  width: 100%; /* Ajusta el tamaño de las imágenes para que ocupen todo el ancho del slider */
+  height: 100%; /* Ajusta el tamaño de las imágenes para que ocupen todo el alto del slider */
+  object-fit: cover; /* Hace que la imagen ocupe todo el espacio disponible del contenedor, recortando si es necesario */
 }
 
 /****formulario de reserva******/
@@ -743,13 +747,13 @@ navbar .cart span{
   width: 1200px; /* Tamaño de 1500px */
   max-width: 100%; /* Asegura que no supere el ancho máximo de la pantalla */
   margin: 0 auto; /* Centrar horizontalmente */
-  margin-top: 20px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh; /* Para ocupar todo el alto de la pantalla */
-  background-color: #f0f0f0; /* O el color de fondo que desees */
+  background-color: #e0f9f9; /* O el color de fondo que desees */
 }
 
 /* Estilos adicionales para los detalles del pedido, si es necesario */

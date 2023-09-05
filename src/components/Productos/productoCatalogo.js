@@ -101,7 +101,13 @@ export const ProductoCatalogo=()=> {
             <button className='btn'  onClick={() => {
                   // Verifica si el rango de fechas seleccionado es válido antes de agregar el producto al carrito
                   if (isDateRangeValid(startDate, endDate)) {
-                    addCarrito(detalle.id, startDate,endDate);
+                    // Verifica si el stock del producto es mayor que 0 antes de agregar al carrito
+                      if (detalle.enStock > 0) {
+                        addCarrito(detalle.id, startDate, endDate);
+                      } else {
+                        // Si el stock es 0, muestra un mensaje de error
+                        alert('Lo sentimos, el producto no está disponible');
+                      }
                   } else {
                      // Si el rango de fechas no es válido, muestra un alert al usuario
                     alert('El rango de fechas seleccionado no es válido. Por favor, selecciona un rango de fechas de hasta 7 días.');

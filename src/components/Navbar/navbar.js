@@ -37,6 +37,9 @@ export const Navbar =()=>{
                 <li>
                     <Link to="/productos">PRODUCTOS</Link>
                 </li>
+                <li>
+                    <Link to="/inventario">INVENTARIO</Link>
+                </li>
             
             </ul>
             <button type="submit" className="logOut-btn" onClick={cerrarSesion}>CERRAR SESION</button>

@@ -11,6 +11,7 @@ import {Inicio} from './components/Inicio/inicio';
 import { ProtectedRoute } from './components/Login/protectedRoutes';
 import { Carrito } from './components/Carrito/carrito';
 import { ProductoCatalogo } from './components/Productos/productoCatalogo';
+import {ProductoNuevo} from './components/Productos/productoNuevo';
 
 function App() {
 
@@ -33,6 +34,11 @@ function App() {
                 <Navbar />
                 <Carrito/>
                 <ProductoCatalogo/>
+                </ProtectedRoute>}></Route>
+                <Route path="/inventario"  element={ <ProtectedRoute>
+                <Navbar />
+                <Carrito/>
+                <ProductoNuevo/>
                 </ProtectedRoute>}></Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>
