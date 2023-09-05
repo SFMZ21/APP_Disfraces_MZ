@@ -12,6 +12,7 @@ import { ProtectedRoute } from './components/Login/protectedRoutes';
 import { Carrito } from './components/Carrito/carrito';
 import { ProductoCatalogo } from './components/Productos/productoCatalogo';
 import {ProductoNuevo} from './components/Productos/productoNuevo';
+import {AdminPanel }from './components/Admin/adminPanel';
 
 function App() {
 
@@ -42,6 +43,16 @@ function App() {
                 </ProtectedRoute>}></Route>
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>
+                <Route
+                  path= "/adminPanel"
+                  element ={
+                    <ProtectedRoute isAdminRequired>
+                      <Navbar/>
+                      <AdminPanel/>
+                    </ProtectedRoute>
+                  }
+                
+                ></Route>
           </Routes>
         </div>
       </DataProvider>

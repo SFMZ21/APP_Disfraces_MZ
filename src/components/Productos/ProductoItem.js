@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import IMG from '../../images/Disfraz1.png';
 import {Link} from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
 

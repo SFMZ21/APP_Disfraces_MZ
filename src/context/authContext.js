@@ -19,8 +19,13 @@ export function AuthProvider({children}){
             return infoUser;
         });
 
-        const docuRef = doc(firestore,`users/${email}`);
-        setDoc(docuRef,{ isAdmin})
+        const docuRef = doc(firestore,`users/${infoUser.user.email}`);
+        const docSnap = await getDoc(docuRef);
+        //Verificar si el usuario existe antes de crearlo
+        if(!docSnap.exists()){
+          setDoc(docuRef,{ isAdmin, password:password, uid:infoUser.user.uid})
+        }
+        
     }
 
     const login =(email,password)=>{
@@ -29,13 +34,7 @@ export function AuthProvider({children}){
 
     const logOut =()=> signOut(auth);
 
-    async function getRol(uid) {
-        const docuRef = doc(firestore, `users/${uid}`);
-        const docuCifrada = await getDoc(docuRef);
-        const infoFinal = docuCifrada.data().rol;
-        console.log(infoFinal);
-        return infoFinal;
-      }
+    
 
     async function logInGoogle(){
         const googleProvider = new GoogleAuthProvider();
@@ -44,44 +43,36 @@ export function AuthProvider({children}){
         });
 
         const docuRef = doc(firestore,`users/${infoUser.user.email}`);
-        setDoc(docuRef,{Correo:infoUser.user.email, isAdmin:false})
+        const docSnap = await getDoc(docuRef);
+        //Verificar si el usuario existe antes de crearlo
+        if(!docSnap.exists()){
+          setDoc(docuRef,{ isAdmin:false, uid:infoUser.user.uid})
+        }
     }
-    
-      function setUserWithFirebaseAndRol(usuarioFirebase) {
-        getRol(usuarioFirebase.uid).then((rol) => {
-          const userData = {
-            uid: usuarioFirebase.uid,
-            email: usuarioFirebase.email,
-            rol: rol,
-          };
-          setUser(userData);
-          console.log("userData final", userData);
-        });
-      }
 
-    useEffect(() => {
-        const unsubuscribe = onAuthStateChanged(auth, (currentUser) => {
+
+      useEffect(() => {
+        const unsubuscribe = onAuthStateChanged(auth, async (currentUser) => {
           console.log({ currentUser });
           setUser(currentUser);
-          setLoading(false);
-        });
-        return () => unsubuscribe();
-      }, 
-      () => {
-        const injectRol = onAuthStateChanged(auth, (usuarioFirebase) => {
-          if (usuarioFirebase) {
-            //funcion final
       
-            if (!user) {
-              setUserWithFirebaseAndRol(usuarioFirebase);
+          if (currentUser) {
+            // Verifica si el usuario actual tiene el rol de administrador en la base de datos
+            const docuRef = doc(firestore, `users/${currentUser.email}`);
+            const docSnap = await getDoc(docuRef);
+            if (docSnap.exists()) {
+              const userData = docSnap.data();
+              console.log(userData)
+              currentUser.isAdmin = userData.isAdmin || false;
             }
-          } else {
-            setUser(null);
           }
+          setUser(currentUser);
+          setLoading(false);
+          console.log(currentUser)
         });
-        return () => injectRol();
-      },
-      []);
+      
+        return () => unsubuscribe();
+      }, []);
 
     return(
         <authContext.Provider value={{login,registro,user,loading,logOut,logInGoogle}}>{children}</authContext.Provider>
