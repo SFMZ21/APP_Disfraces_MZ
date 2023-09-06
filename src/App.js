@@ -13,6 +13,7 @@ import { Carrito } from './components/Carrito/carrito';
 import { ProductoCatalogo } from './components/Productos/productoCatalogo';
 import {ProductoNuevo} from './components/Productos/productoNuevo';
 import {AdminPanel }from './components/Admin/adminPanel';
+import {PedidosAdmin} from './components/Admin/pedidosAdmin';
 
 function App() {
 
@@ -51,7 +52,15 @@ function App() {
                       <AdminPanel/>
                     </ProtectedRoute>
                   }
-                
+                ></Route>
+                <Route
+                  path= "/adminPanel/pedidosAdmin"
+                  element ={
+                    <ProtectedRoute isAdminRequired>
+                      <Navbar/>
+                      <PedidosAdmin/>
+                    </ProtectedRoute>
+                  }
                 ></Route>
           </Routes>
         </div>

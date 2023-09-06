@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../../context/authContext";
 
 export const ProductoNuevo = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -17,34 +18,70 @@ export const ProductoNuevo = ({ onClose }) => {
     size: '',
   });
 
+  //Estado de carga de las imagenes
+  const [isUploading, setIsUploading] = useState(false);
+
   const [error, setError] = useState('');
 
   const history = useNavigate();
+  const { newProduct } = useAuth(); // Obtiene la función newProduct desde useAuth
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Validación de precio no negativo
     if (formData.price < 0) {
       setError('El precio no puede ser negativo');
       return;
     }
-
-    // Procesa los datos del formulario como lo necesites
-    // ...
-
-    // Cierra el modal y regresa a la página anterior
-    onClose();
+  
+    // Verifica que los campos de imagen sean archivos antes de llamar a newProduct
+    if (!formData.image || !formData.img1 || !formData.img2 || !formData.img3) {
+      setError('Debe seleccionar todas las imágenes.');
+      return;
+    }
+  
+    try {
+      setIsUploading(true); // Comienza la carga de imágenes
+  
+      // Llama a la función newProduct para agregar el producto
+      const success = await newProduct(formData);
+  
+      if (success) {
+        // Cierra el modal y regresa a la página anterior si la operación fue exitosa
+        onClose();
+      } else {
+        setError('Error al agregar el producto');
+      }
+    } catch (error) {
+      setError('Error al agregar el producto');
+    } finally {
+      setIsUploading(false); // Finaliza la carga de imágenes (éxito o error)
+    }
   };
+  
+  
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === 'price' ? parseFloat(value) : value, // Convierte a número si es el campo de precio
-    });
-    setError(''); // Limpia el mensaje de error al cambiar los valores
+    const { name, value, files } = e.target;
+    
+    // Verifica si se seleccionó un archivo
+    if (files && files.length > 0) {
+      // Asigna el archivo al campo correspondiente en formData
+      setFormData({
+        ...formData,
+        [name]: files[0], // Aquí asignamos el primer archivo seleccionado
+      });
+    } else {
+      // Resto del código para campos de texto
+      setFormData({
+        ...formData,
+        [name]: name === 'price' ? parseFloat(value) : value,
+      });
+    }
+    setError('');
   };
+
 
   return (
     <div className="modalProducto">
@@ -52,6 +89,7 @@ export const ProductoNuevo = ({ onClose }) => {
         <h2>Agregar Producto</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleFormSubmit}>
+         
           <div className="form-group">
             <label>Título:</label>
             <input
@@ -162,12 +200,17 @@ export const ProductoNuevo = ({ onClose }) => {
               required
             />
           </div>
-          
-          <button className='buttonPN' type="submit">Guardar</button>
+          <button className='buttonPN' type="submit" disabled={isUploading}>
+            {isUploading ? (
+            <box-icon name='loader-circle' animation='tada' flip='horizontal'></box-icon>
+              ) : (
+            'Guardar'
+            )}
+          </button>
+
         </form>
         <button onClick={onClose}>Cerrar</button>
       </div>
     </div>
   );
 };
-

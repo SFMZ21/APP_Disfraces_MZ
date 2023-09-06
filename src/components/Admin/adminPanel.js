@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { ProductoNuevo } from '../Productos/productoNuevo';
+import {Link} from 'react-router-dom';
+import Logo from "../../images/addDisfraz.png";
+import Logo2 from "../../images/VerPedidos.png";
 
 export const AdminPanel = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,12 +18,17 @@ export const AdminPanel = () => {
   return (
     <div className="admin-panel">
       <div className="add-costume">
+      <img src={Logo} alt="logo" width="200"></img>
+      
         <button className="add-button" onClick={openModal}>
            Agregar Disfraz
         </button>
       </div>
       <div className="content-box">
-        {/* Contenido del segundo div */}
+      <img src={Logo2} alt="logo" width="200"></img>
+        <div className='verPedido'> 
+          <Link to={`/adminPanel/pedidosAdmin`} className="btn">Ver Pedidos</Link>
+        </div> 
       </div>
       <div className="content-box">
         {/* Contenido del tercer div */}
