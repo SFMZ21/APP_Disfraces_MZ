@@ -3,6 +3,7 @@ import { ProductoNuevo } from '../Productos/productoNuevo';
 import {Link} from 'react-router-dom';
 import Logo from "../../images/addDisfraz.png";
 import Logo2 from "../../images/VerPedidos.png";
+import Logo3 from "../../images/inventario.png";
 
 export const AdminPanel = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,7 +32,10 @@ export const AdminPanel = () => {
         </div> 
       </div>
       <div className="content-box">
-        {/* Contenido del tercer div */}
+        <img src={Logo3} alt="logo" width="200"></img>
+        <div className='verPedido'> 
+          <Link to={`/adminPanel/inventario`} className="btn">Inventario</Link>
+        </div> 
       </div>
 
       {isModalOpen && (

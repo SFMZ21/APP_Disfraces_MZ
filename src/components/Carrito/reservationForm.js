@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import { collection, addDoc,query, where, getDocs,doc, updateDoc, increment, FieldValue  } from "firebase/firestore";
 import { firestore } from "../../firebase";
 import { authContext, useAuth } from "../../context/authContext";
@@ -8,7 +8,7 @@ const ReservationForm = ({ onClose }) => {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [telefono, setTelefono] = useState("");
-  const estado = "en Alquiler";
+  const estado = "en Proceso";
 
   const contextData = useContext(authContext);
   const carritoData =useContext(DataContext);
@@ -19,13 +19,19 @@ const ReservationForm = ({ onClose }) => {
   const [total] =carritoData.total;
   const [carrito, setCarrito]=carritoData.carrito;
   const email = contextData.user.email;
-  
-  
-  console.log(contextData.user.email);
-  console.log(carrito);
-  console.log(total)
-  console.log(startDate);
-  console.log(endDate);
+
+  const [showAlert, setShowAlert] = useState(false);
+  useEffect(() => {
+    if (showAlert) {
+      const timeoutId = setTimeout(() => {
+        setShowAlert(false);
+      }, 10000); // 10 segundos en milisegundos
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [showAlert]);
   
 
   const handleSubmit = async (event) => {
@@ -58,6 +64,7 @@ const ReservationForm = ({ onClose }) => {
           enUso: increment(producto.cantidad),
         });
       });
+      setShowAlert(true);
   
       // Limpiar el carrito
       setCarrito([]);
@@ -69,25 +76,25 @@ const ReservationForm = ({ onClose }) => {
 
       // Cerrar el formulario modal
       onClose();
-      // Actualizar la página después de un breve retardo
       setTimeout(() => {
         window.location.reload();
       }, 500); // Esperar 500ms antes de recargar la página
 
+     
+
     } catch (error) {
       console.error("Error al guardar la reserva:", error);
-      // Mostrar mensaje de error si es necesario
     }
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="modal-close" onClick={onClose}>
-          &times;
+        <button onClick={onClose}>
+          <box-icon name='x' color='#bf2a1b' ></box-icon>
         </button>
 
-        <h2>Formulario de Reserva</h2>
+        <h2>Ficha de entrega</h2>
 
         <form onSubmit={handleSubmit}>
           {/* Campos del formulario como antes */}
@@ -96,6 +103,7 @@ const ReservationForm = ({ onClose }) => {
                 <label htmlFor="nombre">Nombre:</label>
                 <input
                 type="text"
+                className="inputFormR"
                 id="nombre"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
@@ -107,6 +115,7 @@ const ReservationForm = ({ onClose }) => {
                 <label htmlFor="apellido">Apellido:</label>
                 <input
                 type="text"
+                className="inputFormR"
                 id="apellido"
                 value={apellido}
                 onChange={(e) => setApellido(e.target.value)}
@@ -118,14 +127,21 @@ const ReservationForm = ({ onClose }) => {
                 <label htmlFor="telefono">Teléfono:</label>
                 <input
                 type="tel"
+                className="inputFormR"
                 id="telefono"
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
                 required
                 />
             </div>
-          <button type="submit" onChange={handleSubmit}>Confirmar reserva</button>
+          <button type="submit" className="btn-confirmar" onChange={handleSubmit}>Confirmar reserva</button>
         </form>
+
+          {showAlert && (
+            <div className="alert">
+              Reserva realizada con éxito, puedes pasar a recoger tu pedido
+            </div>
+          )}
       </div>
     </div>
   );

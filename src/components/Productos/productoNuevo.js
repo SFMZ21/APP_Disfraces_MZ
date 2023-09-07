@@ -86,6 +86,9 @@ export const ProductoNuevo = ({ onClose }) => {
   return (
     <div className="modalProducto">
       <div className="modalProducto-content">
+      <button onClick={onClose}>
+      <box-icon name='x' color='#bf2a1b' ></box-icon>
+      </button>
         <h2>Agregar Producto</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleFormSubmit}>
@@ -94,6 +97,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>Título:</label>
             <input
               type="text"
+              className='inputNP'
               name="title"
               value={formData.title}
               onChange={handleInputChange}
@@ -104,6 +108,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>Categoría:</label>
             <input
               type="text"
+              className='inputNP'
               name="category"
               value={formData.category}
               onChange={handleInputChange}
@@ -114,6 +119,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>Precio:</label>
             <input
               type="number"
+              className='inputNP'
               name="price"
               value={formData.price}
               onChange={handleInputChange}
@@ -124,6 +130,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>Tamaño:</label>
             <input
               type="text"
+              className='inputNP'
               name="size"
               value={formData.size}
               onChange={handleInputChange}
@@ -134,6 +141,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>En Uso:</label>
             <input
               type="number"
+              className='inputNP'
               name="enUso"
               value={formData.enUso}
               onChange={handleInputChange}
@@ -144,6 +152,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>En Stock:</label>
             <input
               type="number"
+              className='inputNP'
               name="enStock"
               value={formData.enStock}
               onChange={handleInputChange}
@@ -151,9 +160,10 @@ export const ProductoNuevo = ({ onClose }) => {
             />
           </div>
           <div className="form-group">
-            <label>ID:</label>
+            <label>Código de producto:</label>
             <input
               type="text"
+              className='inputNP'
               name="id"
               value={formData.id}
               onChange={handleInputChange}
@@ -164,6 +174,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>Imagen Principal (PNG):</label>
             <input
               type="file"
+              className='inputNP'
               accept=".png"
               name="image"
               onChange={handleInputChange}
@@ -174,6 +185,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>Imagen 1 (PNG):</label>
             <input
               type="file"
+              className='inputNP'
               accept=".png"
               name="img1"
               onChange={handleInputChange}
@@ -184,6 +196,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>Imagen 2 (PNG):</label>
             <input
               type="file"
+              className='inputNP'
               accept=".png"
               name="img2"
               onChange={handleInputChange}
@@ -194,6 +207,7 @@ export const ProductoNuevo = ({ onClose }) => {
             <label>Imagen 3 (PNG):</label>
             <input
               type="file"
+              className='inputNP'
               accept=".png"
               name="img3"
               onChange={handleInputChange}
@@ -209,7 +223,7 @@ export const ProductoNuevo = ({ onClose }) => {
           </button>
 
         </form>
-        <button onClick={onClose}>Cerrar</button>
+        
       </div>
     </div>
   );

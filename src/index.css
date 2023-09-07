@@ -724,15 +724,16 @@ navbar .cart span{
   margin-bottom: 6px;
   color: #555;
 }
-.modal input {
+.inputFormR{
   height: 32px;
   padding: 8px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 16px;
+  width: 300px;
 }
-.modal button {
+.btn-confirmar {
   background-color:#77c2cf;
   color: #fff;
   border: none;
@@ -777,17 +778,21 @@ navbar .cart span{
 }
 
 .add-costume {
-  width: 300px;
-  text-align: center; /* Centra los elementos horizontalmente */
-  background-color: #daecec;
-  border: 1px solid #ccc;
-  margin-right: 20px; /* Espacio entre los divs */
   padding: 20px; /* Agrega espacio interno */
+  flex-direction: column;
+  width: 400px;
+  height: 360px;
+  background-color:#b8dbdb;
+  border: 1px solid #ccc;
+  margin-right: 40px; /* Espacio entre los divs */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-button {
   margin-top: 10px; /* Agrega espacio entre la imagen y el botón */
-  padding: 10px 20px;
+  padding: 10px 10px;
   background-color: rgb(144, 185, 109);
   border: none;
   border-radius: 5px;
@@ -810,14 +815,13 @@ navbar .cart span{
 .add-button:hover {
   background-color: #7fe268;
 }
-
 .content-box {
   flex-direction: column;
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
   background-color:#b8dbdb;
   border: 1px solid #ccc;
-  margin-right: 20px; /* Espacio entre los divs */
+  margin-right: 40px; /* Espacio entre los divs */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -840,7 +844,6 @@ navbar .cart span{
 .verPedido a{
   color: white;
 }
-
 .verPedido:hover {
   background-color: #7fe268/* Cambia el color de fondo al pasar el mouse */;
 }
@@ -853,8 +856,14 @@ navbar .cart span{
   align-items: center;
   height: 100vh;
   padding-top: 10px;
+  overflow: hidden;
 }
-input[type="text"] {
+.table-scroll {
+  max-height: 500px; /* Altura máxima de 400px (ajusta según tus preferencias) */
+  overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+}
+.buscador {
+  margin-top: 120px;
   margin-bottom: 10px; /* Agrega espacio entre el campo de entrada y la tabla */
   padding: 8px;
   font-size: 16px;
@@ -867,39 +876,57 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
-  
 }
 th, td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
-
-/* Estilo para la cabecera */
 thead {
   background-color: #afcf5d;
   color: black;
   font-weight: bold;
 }
-
-/* Estilo para las celdas de datos */
 tbody {
   font-size: 16px;
 }
-
-/* Estilo para las celdas de datos al pasar el ratón sobre ellas */
 tbody tr:hover {
   background-color: #dcf0a5;
 }
-
-/* Estilo para las filas impares */
 tbody tr:nth-child(odd) {
   background-color: #ebfdd7;
 }
-
-/* Estilo para las celdas de texto negras */
 th, td {
   color: black;
+}
+.btn-completado {
+  background-color: #efa317;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-right: 0px; /* Agrega margen derecho para separar los botones */
+}
+.btn-alquiler {
+  background-color: #77c2cf;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-right: 0px; /* Agrega margen derecho para separar los botones */
+}
+.btn-cancelar {
+  background-color: rgb(209, 105, 105);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
 
@@ -926,10 +953,11 @@ th, td {
   max-width: 80%;
   max-height: 80%;
   overflow: auto;
+  width: 500px;
 }
 
 .error-message {
-  color: red;
+  color: rgb(193, 77, 77);
   margin-bottom: 10px;
 }
 
@@ -942,11 +970,8 @@ label {
   font-weight: bold;
   margin-bottom: 5px;
 }
-
-input[type="text"],
-input[type="number"],
-input[type="file"] {
-  width: 100%;
+.inputNP{
+  width: 460px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -968,10 +993,6 @@ input[type="file"] {
 .buttonPN[type="button"]:hover {
   background-color: #0056b3;
 }
-
-
-
-
 
 /*-------------media-----------*/
 @media only screen and (max-width:1000px){
