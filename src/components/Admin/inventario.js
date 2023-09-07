@@ -15,11 +15,11 @@ export function Inventario() {
   const updateFields = {};
 
   if (newPrice !== '') {
-      updateFields.price = newPrice;
+      updateFields.price = Number(newPrice);
     }
 
     if (newStock !== '') {
-      updateFields.enStock = newStock;
+      updateFields.enStock = Number(newStock);
     }
 
     try {
