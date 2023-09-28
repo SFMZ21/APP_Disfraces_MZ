@@ -50,6 +50,7 @@ function App() {
                   element ={
                     <ProtectedRoute isAdminRequired>
                       <Navbar/>
+                      <Carrito/>
                       <AdminPanel/>
                     </ProtectedRoute>
                   }
@@ -59,6 +60,7 @@ function App() {
                   element ={
                     <ProtectedRoute isAdminRequired>
                       <Navbar/>
+                      <Carrito/>
                       <PedidosAdmin/>
                     </ProtectedRoute>
                   }
@@ -68,6 +70,7 @@ function App() {
                   element ={
                     <ProtectedRoute isAdminRequired>
                       <Navbar/>
+                      <Carrito/>
                       <Inventario/>
                     </ProtectedRoute>
                   }

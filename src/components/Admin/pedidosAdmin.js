@@ -14,11 +14,20 @@ export function PedidosAdmin() {
 
     // Actualiza los campos "enStock" y "enUso" de los productos
     reserva.carrito.forEach((producto) => {
+
       const docRef = doc(firestore, "products", producto.id.toString());
-      updateDoc(docRef, {
-        enStock: increment(producto.cantidad),
-        enUso: increment(-producto.cantidad),
-      });
+      if(estado === "completado"){
+        updateDoc(docRef, {
+          enStock: increment(producto.cantidad),
+          enUso: increment(-producto.cantidad),
+        });
+      }
+      if(estado ==="cancelado" ){
+        updateDoc(docRef, {
+          enStock: increment(producto.cantidad),
+          enUso: increment(-producto.cantidad),
+        });
+      }
     });
   };
 
