@@ -9,9 +9,11 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "boxicons": "^2.1.4",
+    "crypto-browserify": "^3.12.0",
     "date-fns": "^2.30.0",
     "firebase": "^9.22.0",
     "mdb-react-ui-kit": "^6.0.0",
+    "path": "^0.12.7",
     "react": "^18.2.0",
     "react-datepicker": "^4.12.0",
     "react-dom": "^18.2.0",
@@ -26,7 +28,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sonarqube": "sonar-scanner"
   },
   "eslintConfig": {
     "extends": [
@@ -45,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sonar-scanner": "^3.1.0"
   }
 }

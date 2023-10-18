@@ -103,28 +103,34 @@ export function AuthProvider({children}){
     }
 
 
-      useEffect(() => {
-        const unsubuscribe = onAuthStateChanged(auth, async (currentUser) => {
+    useEffect(() => {
+      const unsubuscribe = onAuthStateChanged(auth, async (currentUser) => {
+        try {
           console.log({ currentUser });
           setUser(currentUser);
-      
+    
           if (currentUser) {
             // Verifica si el usuario actual tiene el rol de administrador en la base de datos
             const docuRef = doc(firestore, `users/${currentUser.email}`);
             const docSnap = await getDoc(docuRef);
+    
             if (docSnap.exists()) {
               const userData = docSnap.data();
-              console.log(userData)
+              console.log(userData);
               currentUser.isAdmin = userData.isAdmin || false;
             }
           }
-          setUser(currentUser);
+    
           setLoading(false);
-          console.log(currentUser)
-        });
-      
-        return () => unsubuscribe();
-      }, []);
+          console.log(currentUser);
+        } catch (error) {
+          console.error("Error en onAuthStateChanged:", error);
+        }
+      });
+    
+      return () => unsubuscribe();
+    }, []);
+    
 
     return(
         <authContext.Provider value={{login,registro,user,loading,logOut,logInGoogle, newProduct}}>{children}</authContext.Provider>
