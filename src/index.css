@@ -674,10 +674,11 @@ navbar .cart span{
 }
 
 .slider-container {
-  width: 1200px; /* Ancho de 1200px */
+  width: 2000px; /* Ancho de 1200px */
   max-width: 100%; /* Asegura que no supere el ancho máximo de 2300px */
-  margin: 0 auto ; /* Centrar horizontalmente */
   margin-bottom: 20px;
+  margin-left: 800px;
+  margin-right: 2px;
 }
 .slider-image {
   align-items: center;
