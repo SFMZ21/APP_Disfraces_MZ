@@ -31,7 +31,7 @@ export const ProductoItem = ({
                 <p className="price">Q{price}</p>
             </div>
             <div className="button">
-                <button className="btn" onClick={()=>addCarrito(id)}>Añadir al carrito</button>
+                
                 <div>
                 <Link to={`/productos/${id}`} className="btn">Vista</Link>
                 </div> 

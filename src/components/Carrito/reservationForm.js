@@ -3,8 +3,10 @@ import { collection, addDoc,query, where, getDocs,doc, updateDoc, increment, Fie
 import { firestore } from "../../firebase";
 import { authContext, useAuth } from "../../context/authContext";
 import { DataContext } from "../../context/DataProvider";
+import swal from "sweetalert";
 
 const ReservationForm = ({ onClose }) => {
+
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -19,19 +21,6 @@ const ReservationForm = ({ onClose }) => {
   const [total] =carritoData.total;
   const [carrito, setCarrito]=carritoData.carrito;
   const email = contextData.user.email;
-
-  const [showAlert, setShowAlert] = useState(false);
-  useEffect(() => {
-    if (showAlert) {
-      const timeoutId = setTimeout(() => {
-        setShowAlert(false);
-      }, 10000); // 10 segundos en milisegundos
-
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    }
-  }, [showAlert]);
   
 
   const handleSubmit = async (event) => {
@@ -64,7 +53,13 @@ const ReservationForm = ({ onClose }) => {
           enUso: increment(producto.cantidad),
         });
       });
-      setShowAlert(true);
+      
+      swal({
+        title:"¡Reserva realizada con éxito!",
+        text: "Puedes pasar a recoger tu pedido a la tienda",
+        icon: "success",
+        button: "Aceptar"
+      });
   
       // Limpiar el carrito
       setCarrito([]);
@@ -78,7 +73,7 @@ const ReservationForm = ({ onClose }) => {
       onClose();
       setTimeout(() => {
         window.location.reload();
-      }, 500); // Esperar 500ms antes de recargar la página
+      }, 5000); 
 
      
 
@@ -137,11 +132,6 @@ const ReservationForm = ({ onClose }) => {
           <button type="submit" className="btn-confirmar" onChange={handleSubmit}>Confirmar reserva</button>
         </form>
 
-          {showAlert && (
-            <div className="alert">
-              Reserva realizada con éxito, puedes pasar a recoger tu pedido
-            </div>
-          )}
       </div>
     </div>
   );

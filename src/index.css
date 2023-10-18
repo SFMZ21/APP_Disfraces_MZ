@@ -372,7 +372,7 @@ navbar .cart span{
   display: grid;
   align-items: center;
   text-align: center;
-  margin-left: -2rem;
+  margin-left: 10px;
   border-radius: 5px;
 }
 .button div a{
@@ -993,6 +993,19 @@ label {
 .buttonPN[type="button"]:hover {
   background-color: #0056b3;
 }
+
+
+/*********alerts*********/
+/**confirmar reserva*/
+.alert.success {
+  background-color: #77c2cf;
+  color: #fff; /* Texto en color blanco */
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
 
 /*-------------media-----------*/
 @media only screen and (max-width:1000px){

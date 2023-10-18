@@ -7,8 +7,10 @@ import DatePicker from 'react-datepicker';
 import { addDays, differenceInDays } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import swal from "sweetalert";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
+
 
 
 export const ProductoCatalogo=()=> {
@@ -106,11 +108,21 @@ export const ProductoCatalogo=()=> {
                         addCarrito(detalle.id, startDate, endDate);
                       } else {
                         // Si el stock es 0, muestra un mensaje de error
-                        alert('Lo sentimos, el producto no está disponible');
+                        swal({
+                          title:"¡Lo sentimos, No hay suficiente Stock!",
+                          text: "Te recomendamos ver disfraces relacionados",
+                          icon: "warning",
+                          button: "Aceptar"
+                        });
                       }
                   } else {
                      // Si el rango de fechas no es válido, muestra un alert al usuario
-                    alert('El rango de fechas seleccionado no es válido. Por favor, selecciona un rango de fechas de hasta 7 días.');
+                    swal({
+                      title:"¡El rango de fechas seleccionado no es válido!",
+                      text: "Por favor, selecciona un rango de fechas de hasta 7 días",
+                      icon: "warning",
+                      button: "Aceptar"
+                    });
                   }
             }}>Añadir al carrito</button>
           </div>

@@ -1,6 +1,7 @@
 import React, {createContext, useState, useEffect } from "react";
 import { firestore } from "../firebase.js";
 import { collection,getDocs } from "firebase/firestore";
+import swal from "sweetalert";
 export const DataContext = createContext();
 
 export const DataProvider = (props) =>{
@@ -39,8 +40,16 @@ export const DataProvider = (props) =>{
                 return producto.id == id
             })
             setCarrito([...carrito,...data])
+            swal({
+                title:"¡Producto añadido correctamente!",
+                icon: "success",
+              });
+            
         }else{
-            alert("El producto se ha añadido al carrito")
+            swal({
+                title:"¡El producto ya ha sido añadido al carrito!",
+                icon: "warning",
+              });
         }
 
         /**enviar fechas al carrito */

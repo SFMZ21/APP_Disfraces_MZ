@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Card from '../../images/BienvenidaHada.svg';
 import { DataContext } from '../../context/DataProvider';
 import ReservationForm from './reservationForm';
+import swal from "sweetalert";
 
 export const Carrito=()=>{
     const value = useContext(DataContext);
@@ -32,7 +33,12 @@ export const Carrito=()=>{
               if (item.cantidad < item.enStock) {
                 item.cantidad = item.cantidad + 1;
               } else {
-                alert("No hay suficiente stock disponible.");
+                swal({
+                    title:"¡No hay suficiente Stock!",
+                    text: "Te recomendamos ver disfraces relacionados",
+                    icon: "warning",
+                    button: "Aceptar"
+                  });
               }
             }
           });
@@ -40,16 +46,25 @@ export const Carrito=()=>{
     };
 
     const removeProducto =id =>{
-        if(window.confirm("¿Quieres eliminar el producto del carrito?")){
-            carrito.forEach((item,index)=>{
-                if(item.id === id){
-                    item.cantidad=1;
-                    carrito.splice(index,1)
-                }
-                
-            })
-            setCarrito([...carrito])     
-        }
+        swal({
+            title:"Eliminar",
+            text: "¿Quieres eliminar el producto del carrito?",
+            icon: "warning",
+            buttons: ["No","Sí"]
+          }).then(respuesta=>{
+            if(respuesta){
+                carrito.forEach((item,index)=>{
+                    if(item.id === id){
+                        item.cantidad=1;
+                        carrito.splice(index,1)
+                    }
+                    
+                })
+                setCarrito([...carrito])     
+            }
+            
+          })
+        
     }
 
     /**función de mostrar formulario de reserva */
@@ -57,7 +72,11 @@ export const Carrito=()=>{
 
     const handleOpenModal = () => {
         if (carrito.length === 0) {
-            alert("Aún no hay productos en el carrito");
+            swal({
+                title:"¡Aún no hay productos en el carrito!",
+                icon: "warning",
+                button: "Aceptar"
+              });
           } else {
             setShowModal(true);
           }
