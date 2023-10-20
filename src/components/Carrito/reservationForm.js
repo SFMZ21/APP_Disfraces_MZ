@@ -55,7 +55,8 @@ const ReservationForm = ({ onClose }) => {
       const horas = Math.floor(tiempoDiferenciaEnMilisegundos / 3600000); // Calcula las horas
 
       const tiempoInfo = {
-        userIdL: contextData.user.uid,
+        userId: contextData.user.uid,
+        userName: nombre,
         startTime: PurchaseTimeStart, // Agrega la hora de inicio
         endTime: endTime, // Agrega la hora de finalización
         tiempoDiferencia: {
