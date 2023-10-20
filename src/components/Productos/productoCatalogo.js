@@ -133,7 +133,7 @@ export const ProductoCatalogo=()=> {
         
          
             <div className='description'>
-              <p><b>Disfraz perfecto para la época de carnaval,Disfraz perfecto para la época de carnavaDisfraz perfecto para la época de carnavaDisfraz perfecto para la época de carnava</b></p>
+              <p><b>Recuerda que puedes reservar tu disfraz y pagar el alquiler cuando lo recojas en la tienda!</b></p>
             </div>
 
             <h2>Productos Relacionados</h2>
