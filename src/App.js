@@ -15,12 +15,14 @@ import {ProductoNuevo} from './components/Productos/productoNuevo';
 import {AdminPanel }from './components/Admin/adminPanel';
 import {PedidosAdmin} from './components/Admin/pedidosAdmin';
 import {Inventario} from './components/Admin/inventario';
+import { PurchaseTimeProvider} from './context/purchaseTimeContext';
 
 function App() {
 
   return (
     <AuthProvider>
       <DataProvider>
+        <PurchaseTimeProvider>
         <div className='App'>
         <Routes>
                 <Route path="/" element={ <ProtectedRoute>
@@ -77,6 +79,7 @@ function App() {
                 ></Route>
           </Routes>
         </div>
+        </PurchaseTimeProvider>
       </DataProvider>
     </AuthProvider>
   );

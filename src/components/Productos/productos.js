@@ -1,11 +1,18 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { DataContext } from "../../context/DataProvider";
 import { ProductoItem } from "./ProductoItem";
+import { usePurchaseTime } from "../../context/purchaseTimeContext";
 
 export const ListaProductos =()=>{
 
     const value = useContext(DataContext)
     const [productos] = value.productos
+    const { setPurchaseTimeStart} = usePurchaseTime(); // Obtén la función para configurar PurchaseTimeStart
+
+    useEffect(() => {
+      const currentTime = new Date(); // Obtiene la hora actual
+      setPurchaseTimeStart(currentTime); // Configura PurchaseTimeStart en el contexto
+    }, [setPurchaseTimeStart]);
 
     return(
         <>

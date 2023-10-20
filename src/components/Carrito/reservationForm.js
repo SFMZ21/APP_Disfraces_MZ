@@ -3,6 +3,7 @@ import { collection, addDoc,query, where, getDocs,doc, updateDoc, increment, Fie
 import { firestore } from "../../firebase";
 import { authContext, useAuth } from "../../context/authContext";
 import { DataContext } from "../../context/DataProvider";
+import { usePurchaseTime } from "../../context/purchaseTimeContext";
 import swal from "sweetalert";
 
 const ReservationForm = ({ onClose }) => {
@@ -22,6 +23,7 @@ const ReservationForm = ({ onClose }) => {
   const [carrito, setCarrito]=carritoData.carrito;
   const email = contextData.user.email;
   
+  const { PurchaseTimeStart, PurchaseTimeEnd } = usePurchaseTime();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -43,6 +45,28 @@ const ReservationForm = ({ onClose }) => {
       // Guardar la reserva en la colección "pedidos"
       await addDoc(collection(firestore,"pedidos"),{
         reserva,
+      });
+
+      const endTime = new Date();
+      const tiempoDiferenciaEnMilisegundos = endTime - PurchaseTimeStart;
+
+      const segundos = Math.floor((tiempoDiferenciaEnMilisegundos / 1000) % 60); // Calcula los segundos
+      const minutos = Math.floor((tiempoDiferenciaEnMilisegundos / 60000) % 60); // Calcula los minutos
+      const horas = Math.floor(tiempoDiferenciaEnMilisegundos / 3600000); // Calcula las horas
+
+      const tiempoInfo = {
+        userIdL: contextData.user.uid,
+        startTime: PurchaseTimeStart, // Agrega la hora de inicio
+        endTime: endTime, // Agrega la hora de finalización
+        tiempoDiferencia: {
+          horas: horas,
+          minutos: minutos,
+          segundos: segundos,
+        },
+      };
+
+      await addDoc(collection(firestore,"Bitacora"),{
+        tiempoInfo
       });
 
       carrito.map( (producto) => {
