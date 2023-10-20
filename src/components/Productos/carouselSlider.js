@@ -31,7 +31,7 @@ const CarouselSlider = () => {
     { src: [detalle.image], alt: 'Image 1' },
     { src: detalle.img1, alt: 'Image 2' },
     { src: detalle.img2, alt: 'Image 3' },
-    { src: detalle.img2, alt: 'Image 4' },
+    { src: detalle.img3, alt: 'Image 4' },
   ];
 
   const settings = {
