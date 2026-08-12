@@ -1,11 +1,13 @@
 const USER_ROLES = Object.freeze({ USER: "user", ADMIN: "admin" });
 
-function resolveUserRole({ claims = {}, profile = null } = {}) {
+function resolveUserRole({ claims = {}, profile = null, profiles = [] } = {}) {
+  const candidates = [profile, ...profiles].filter(Boolean);
   if (
     claims.admin === true ||
-    profile?.role === USER_ROLES.ADMIN ||
-    profile?.rol === "administrador" ||
-    profile?.isAdmin === true
+    candidates.some((candidate) =>
+      candidate.role === USER_ROLES.ADMIN ||
+      candidate.rol === "administrador" ||
+      candidate.isAdmin === true)
   ) {
     return USER_ROLES.ADMIN;
   }

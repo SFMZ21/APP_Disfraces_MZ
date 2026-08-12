@@ -34,28 +34,6 @@ export function ProductoNuevo({ onClose }) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const total = Number(formData.cantidad);
-    const available = Number(formData.enStock);
-    const inUse = Number(formData.enUso);
-
-    if (
-      !Number.isSafeInteger(total) ||
-      !Number.isSafeInteger(available) ||
-      !Number.isSafeInteger(inUse) ||
-      total < 0 ||
-      available < 0 ||
-      inUse < 0 ||
-      available + inUse > total
-    ) {
-      setError("El stock disponible y en uso no puede superar el total.");
-      return;
-    }
-
-    if (!formData.image || !formData.img1 || !formData.img2 || !formData.img3) {
-      setError("Debes seleccionar las cuatro imágenes.");
-      return;
-    }
-
     setIsUploading(true);
     setError("");
 

@@ -53,6 +53,20 @@ describe("items", () => {
     await assertFails(setDoc(normalRef, { title: "No permitido" }));
     await assertSucceeds(setDoc(adminRef, { title: "Permitido" }));
   });
+
+  it("preserva administración mediante perfil histórico por correo", async () => {
+    await seed("users/legacy-admin@example.com", {
+      email: "legacy-admin@example.com",
+      role: "admin",
+    });
+    const legacyAdmin = userContext("legacy-admin-uid", {
+      email: "legacy-admin@example.com",
+    });
+    await assertSucceeds(setDoc(
+      doc(legacyAdmin.firestore(), "items/product-legacy"),
+      { title: "Permitido" },
+    ));
+  });
 });
 
 describe("pedidos", () => {
@@ -105,6 +119,20 @@ describe("users", () => {
       email: "user-1@example.com",
       role: "admin",
     }));
+  });
+
+  it("permite leer el perfil histórico propio por correo", async () => {
+    await seed("users/user-1@example.com", {
+      email: "user-1@example.com",
+      role: "user",
+    });
+    await seed("users/other@example.com", {
+      email: "other@example.com",
+      role: "user",
+    });
+    const firestore = userContext("user-1").firestore();
+    await assertSucceeds(getDoc(doc(firestore, "users/user-1@example.com")));
+    await assertFails(getDoc(doc(firestore, "users/other@example.com")));
   });
 
   it("impide modificar roles al usuario normal y lo permite al administrador", async () => {

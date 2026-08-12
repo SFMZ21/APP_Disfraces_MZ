@@ -1,4 +1,4 @@
-import { requiredText } from "../../../shared/validation/primitives";
+import { requiredText, validPhone } from "../../../shared/validation/primitives";
 import { ValidationError } from "../../../shared/errors/AppError";
 import { isReservationRangeValid } from "../../../utils/reservation";
 
@@ -6,7 +6,7 @@ export function validateReservationCustomer(customer) {
   return {
     firstName: requiredText(customer.firstName, "nombre", 80),
     lastName: requiredText(customer.lastName, "apellido", 80),
-    phone: requiredText(customer.phone, "teléfono", 30),
+    phone: validPhone(customer.phone),
   };
 }
 

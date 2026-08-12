@@ -61,7 +61,12 @@ export async function uploadProductImage(productId, field, file) {
     `products/${productId}/${crypto.randomUUID()}-${field}.${extension}`,
   );
   await uploadBytes(imageRef, file, { contentType: file.type });
-  return { imageRef, url: await getDownloadURL(imageRef) };
+  try {
+    return { imageRef, url: await getDownloadURL(imageRef) };
+  } catch (error) {
+    await deleteObject(imageRef).catch(() => {});
+    throw error;
+  }
 }
 
 export async function createProduct(productData) {
@@ -85,13 +90,20 @@ export async function createProduct(productData) {
   const uploadedRefs = [];
 
   try {
-    const uploadedImages = await Promise.all(
+    const uploadResults = await Promise.allSettled(
       ["image", "img1", "img2", "img3"].map(async (field) => {
         const uploaded = await uploadProductImage(productId, field, product[field]);
-        uploadedRefs.push(uploaded.imageRef);
-        return [field, uploaded.url];
+        return { field, ...uploaded };
       }),
     );
+    const uploadedImages = uploadResults
+      .filter((result) => result.status === "fulfilled")
+      .map(({ value }) => {
+        uploadedRefs.push(value.imageRef);
+        return [value.field, value.url];
+      });
+    const failedUpload = uploadResults.find((result) => result.status === "rejected");
+    if (failedUpload) throw failedUpload.reason;
 
     await setDoc(productRef, {
       ...product,

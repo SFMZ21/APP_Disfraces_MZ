@@ -48,7 +48,9 @@ export function positiveInteger(value, field) {
 }
 
 export function validImageFile(value, field) {
-  if (!(value instanceof File) || !value.type.startsWith("image/")) {
+  const allowedTypes = new Set(["image/png", "image/jpeg", "image/webp"]);
+
+  if (!(value instanceof File) || !allowedTypes.has(value.type)) {
     throw validationError(field, "Todas las imágenes deben ser archivos válidos.");
   }
 
@@ -57,4 +59,10 @@ export function validImageFile(value, field) {
   }
 
   return value;
+}
+
+// Conserva la regla funcional actual: teléfono obligatorio con máximo 30
+// caracteres. Se centraliza ahora para poder endurecerla en una fase futura.
+export function validPhone(value) {
+  return requiredText(value, "teléfono", 30);
 }

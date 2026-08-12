@@ -15,11 +15,18 @@ service cloud.firestore {
           && profile.data.isAdmin == true);
     }
 
+    function hasEmail() {
+      return request.auth.token.keys().hasAny(['email']);
+    }
+
     function hasAdminProfile() {
       let uidPath = /databases/$(database)/documents/users/$(request.auth.uid);
-      let emailPath = /databases/$(database)/documents/users/$(request.auth.token.email);
       return (exists(uidPath) && adminProfile(get(uidPath)))
-        || (exists(emailPath) && adminProfile(get(emailPath)));
+        || (hasEmail()
+          && exists(/databases/$(database)/documents/users/$(request.auth.token.email))
+          && adminProfile(get(
+            /databases/$(database)/documents/users/$(request.auth.token.email)
+          )));
     }
 
     function isAdmin() {
@@ -34,7 +41,8 @@ service cloud.firestore {
       return signedIn() && (
         (order.keys().hasAny(['ownerId'])
           && order.ownerId == request.auth.uid)
-        || (order.keys().hasAny(['reserva'])
+        || (hasEmail()
+          && order.keys().hasAny(['reserva'])
           && order.reserva.keys().hasAny(['email'])
           && order.reserva.email == request.auth.token.email)
       );
@@ -66,6 +74,7 @@ service cloud.firestore {
     match /users/{userId} {
       allow read: if signedIn() && (
         request.auth.uid == userId
+        || (hasEmail() && request.auth.token.email == userId)
         || (resource.data.keys().hasAny(['uid'])
           && resource.data.uid == request.auth.uid)
         || isAdmin()

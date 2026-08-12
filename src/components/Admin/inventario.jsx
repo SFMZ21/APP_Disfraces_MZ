@@ -48,23 +48,10 @@ export function Inventario() {
   };
 
   const saveProduct = async (product) => {
-    const price = Number(form.price);
-    const stock = Number(form.stock);
-
-    if (
-      !Number.isFinite(price) ||
-      price < 0 ||
-      !Number.isSafeInteger(stock) ||
-      stock < 0
-    ) {
-      setError("Precio y existencias deben ser números no negativos.");
-      return;
-    }
-
     try {
       await updateProductInventory(product.documentId, {
-        price,
-        stock,
+        price: form.price,
+        stock: form.stock,
         total: product.cantidad,
         inUse: product.enUso,
       });

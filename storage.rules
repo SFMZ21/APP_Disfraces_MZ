@@ -6,6 +6,10 @@ service firebase.storage {
       return request.auth != null;
     }
 
+    function hasEmail() {
+      return request.auth.token.keys().hasAny(['email']);
+    }
+
     function profile(userId) {
       return firestore.get(
         /databases/(default)/documents/users/$(userId)
@@ -32,24 +36,26 @@ service firebase.storage {
         (request.auth.token.keys().hasAny(['admin'])
           && request.auth.token.admin == true)
         || hasAdminProfile(request.auth.uid)
-        || hasAdminProfile(request.auth.token.email)
+        || (hasEmail() && hasAdminProfile(request.auth.token.email))
       );
     }
 
     function validImage() {
       return request.resource.size < 10 * 1024 * 1024
-        && request.resource.contentType.matches('image/.*');
+        && request.resource.contentType.matches('image/(png|jpeg|webp)');
     }
 
     match /products/{allPaths=**} {
       allow read: if signedIn();
-      allow write: if isAdmin() && validImage();
+      allow create, update: if isAdmin() && validImage();
+      allow delete: if isAdmin();
     }
 
     // Compatibilidad de lectura con las imágenes históricas guardadas en raíz.
     match /{fileName} {
       allow read: if signedIn();
-      allow write: if isAdmin() && validImage();
+      allow create, update: if isAdmin() && validImage();
+      allow delete: if isAdmin();
     }
   }
 }

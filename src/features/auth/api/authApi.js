@@ -16,19 +16,15 @@ import {
   validateRegistrationCredentials,
 } from "../model/authValidation";
 
-async function getUserProfile(firebaseUser) {
-  const uidSnapshot = await getDoc(doc(firestoreClient, "users", firebaseUser.uid));
-
-  if (uidSnapshot.exists()) return uidSnapshot.data();
-
-  if (firebaseUser.email) {
-    const legacySnapshot = await getDoc(
-      doc(firestoreClient, "users", firebaseUser.email),
-    );
-    if (legacySnapshot.exists()) return legacySnapshot.data();
-  }
-
-  return null;
+async function getUserProfiles(firebaseUser) {
+  const profileIds = [firebaseUser.uid, firebaseUser.email].filter(Boolean);
+  const snapshots = await Promise.all(
+    profileIds.map((profileId) =>
+      getDoc(doc(firestoreClient, "users", profileId))),
+  );
+  return snapshots
+    .filter((snapshot) => snapshot.exists())
+    .map((snapshot) => snapshot.data());
 }
 
 async function createUserProfile(firebaseUser) {
@@ -101,13 +97,13 @@ export function subscribeToAuthentication(onUser, onError) {
     }
 
     try {
-      const [profile, tokenResult] = await Promise.all([
-        getUserProfile(firebaseUser),
+      const [profiles, tokenResult] = await Promise.all([
+        getUserProfiles(firebaseUser),
         firebaseUser.getIdTokenResult(),
       ]);
       const role = resolveUserRole({
         claims: tokenResult.claims,
-        profile,
+        profiles,
       });
 
       onUser({

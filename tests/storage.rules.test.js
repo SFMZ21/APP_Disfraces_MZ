@@ -26,7 +26,10 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  await testEnvironment.clearStorage();
+  await Promise.all([
+    testEnvironment.clearFirestore(),
+    testEnvironment.clearStorage(),
+  ]);
 });
 
 afterAll(async () => {
@@ -61,6 +64,10 @@ describe("Firebase Storage", () => {
       storageFor("admin", { admin: true }).ref("products/product-1/file.txt")
         .put(new Uint8Array([1]), { contentType: "text/plain" }),
     );
+    await assertFails(
+      storageFor("admin", { admin: true }).ref("products/product-1/vector.svg")
+        .put(new Uint8Array([1]), { contentType: "image/svg+xml" }),
+    );
   });
 
   it("rechaza imágenes de 10 MB o más", async () => {
@@ -68,5 +75,14 @@ describe("Firebase Storage", () => {
       storageFor("admin", { admin: true }).ref("products/product-1/large.png")
         .put(new Uint8Array(10 * 1024 * 1024), { contentType: "image/png" }),
     );
+  });
+
+  it("permite al administrador limpiar una imagen", async () => {
+    const adminFile = storageFor("admin", { admin: true })
+      .ref("products/product-1/main.png");
+    await assertSucceeds(adminFile.put(new Uint8Array([1]), {
+      contentType: "image/png",
+    }));
+    await assertSucceeds(adminFile.delete());
   });
 });

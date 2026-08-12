@@ -1,4 +1,8 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
+import {
+  initializeAppCheck,
+  ReCaptchaEnterpriseProvider,
+} from "firebase/app-check";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -54,16 +58,10 @@ if (
   import.meta.env.VITE_FIREBASE_APP_CHECK_SITE_KEY &&
   typeof window !== "undefined"
 ) {
-  import("firebase/app-check")
-    .then(({ initializeAppCheck, ReCaptchaV3Provider }) => {
-      initializeAppCheck(firebaseApp, {
-        provider: new ReCaptchaV3Provider(
-          import.meta.env.VITE_FIREBASE_APP_CHECK_SITE_KEY,
-        ),
-        isTokenAutoRefreshEnabled: true,
-      });
-    })
-    .catch((error) => {
-      console.error("No fue posible inicializar Firebase App Check:", error);
-    });
+  initializeAppCheck(firebaseApp, {
+    provider: new ReCaptchaEnterpriseProvider(
+      import.meta.env.VITE_FIREBASE_APP_CHECK_SITE_KEY,
+    ),
+    isTokenAutoRefreshEnabled: true,
+  });
 }

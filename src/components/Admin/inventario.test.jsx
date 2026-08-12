@@ -45,7 +45,7 @@ describe("Inventario", () => {
     await user.click(screen.getByRole("button", { name: "Guardar" }));
     await waitFor(() => expect(updateProductInventory).toHaveBeenCalledWith(
       "product-1",
-      { price: 150, stock: 3, total: 5, inUse: 1 },
+      { price: "150", stock: "3", total: 5, inUse: 1 },
     ));
   });
 });

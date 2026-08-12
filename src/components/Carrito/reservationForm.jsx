@@ -26,12 +26,6 @@ export default function ReservationForm({ onClose }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!startDate || !endDate || items.length === 0) {
-      setError("El carrito o las fechas de reserva ya no son válidos.");
-      return;
-    }
-
     setSubmitting(true);
     setError("");
 

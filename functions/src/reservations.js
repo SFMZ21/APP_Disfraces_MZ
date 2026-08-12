@@ -23,10 +23,11 @@ async function requireAdmin(db, auth) {
   const profiles = await db.getAll(
     ...profileIds.map((profileId) => db.collection("users").doc(profileId)),
   );
-  const hasAdminProfile = profiles.some((profile) =>
-    resolveUserRole({ profile: profile.data() }) === USER_ROLES.ADMIN);
+  const role = resolveUserRole({
+    profiles: profiles.map((profile) => profile.data()),
+  });
 
-  if (!hasAdminProfile) {
+  if (role !== USER_ROLES.ADMIN) {
     throw new HttpsError("permission-denied", "Se requiere rol de administrador.");
   }
 }
