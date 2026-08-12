@@ -1,0 +1,158 @@
+/* Administración */
+.admin-page,
+.table-container {
+  width: min(100%, var(--content-width));
+  min-height: calc(100dvh - 5.5rem);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) var(--page-padding) 4rem;
+}
+.admin-page > h1,
+.table-container > h1 {
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--color-primary-dark);
+  font-family: "Quicksand", sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.admin-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.admin-card {
+  display: flex;
+  min-width: 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.admin-card img {
+  width: min(100%, 13rem);
+  height: 12rem;
+  object-fit: contain;
+}
+
+.admin-card h2 {
+  margin: 0.75rem 0 1rem;
+  font-family: "Quicksand", sans-serif;
+}
+
+.admin-action {
+  display: flex;
+  width: 100%;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  background: var(--color-accent-dark);
+  font-weight: 700;
+}
+
+.table-container {
+  display: block;
+}
+
+.buscador {
+  display: block;
+  width: min(100%, 28rem);
+  margin: 0 0 1.25rem;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+table {
+  width: 100%;
+  min-width: 52rem;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: #ffffff;
+  background: var(--color-primary-dark);
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+td {
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+tbody tr:nth-child(even) {
+  background: #f7fbfb;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+td ul li + li {
+  margin-top: 0.35rem;
+}
+
+.table-actions,
+.order-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.table-actions button,
+.order-actions button {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.45rem;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.btn-save,
+.btn-edit,
+.btn-alquiler {
+  background: var(--color-primary);
+}
+
+.btn-secondary {
+  background: #69767a;
+}
+
+.btn-completado {
+  background: var(--color-warning);
+}
+
+.btn-cancelar {
+  background: var(--color-danger);
+}
+
+.table-container td input {
+  min-width: 6.5rem;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.55rem;
+}

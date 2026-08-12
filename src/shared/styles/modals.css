@@ -1,0 +1,74 @@
+/* Modales */
+.modal-overlay,
+.modalProducto {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: grid;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  overflow-y: auto;
+  place-items: center;
+  background: rgb(9 22 25 / 66%);
+}
+.modal,
+.modalProducto-content {
+  width: min(100%, 32rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  padding: clamp(1.1rem, 4vw, 1.75rem);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  box-shadow: var(--shadow-md);
+}
+
+.modalProducto-content {
+  width: min(100%, 48rem);
+}
+
+.modal > button:first-child,
+.modalProducto-content > button:first-child {
+  margin-left: auto;
+}
+
+.modal h2,
+.modalProducto-content h2 {
+  margin: -2.25rem 3.5rem 1.5rem 0;
+  color: var(--color-primary-dark);
+  font-family: "Quicksand", sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.modal form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.inputFormR,
+.inputNP {
+  max-width: none;
+}
+
+.modalProducto-content form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 1rem;
+}
+
+.modalProducto-content .buttonPN {
+  grid-column: 1 / -1;
+}
+
+input[type="file"] {
+  min-height: 3.2rem;
+  padding: 0.55rem;
+}
+
+input[type="file"]::file-selector-button {
+  margin-right: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  border: 0;
+  border-radius: 0.4rem;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-soft);
+  font-weight: 600;
+}

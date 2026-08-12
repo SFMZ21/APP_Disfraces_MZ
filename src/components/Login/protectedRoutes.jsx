@@ -1,12 +1,13 @@
 import { useLocation, Navigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
+import { PageState } from "../../shared/components/PageState";
 
 export function ProtectedRoute({ children, isAdminRequired = false }) {
   const { user, loading } = useAuth();
   const location = useLocation();
 
   if (loading) {
-    return <p className="page-status" role="status">Cargando sesión…</p>;
+    return <PageState>Cargando sesión…</PageState>;
   }
 
   if (!user) {

@@ -1,0 +1,147 @@
+/* Navegación */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  color: #ffffff;
+  background: rgb(77 158 170 / 97%);
+  box-shadow: 0 0.35rem 1.3rem rgb(22 69 76 / 18%);
+  backdrop-filter: blur(0.8rem);
+}
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  width: min(100%, var(--content-width));
+  min-height: 5.5rem;
+  margin: 0 auto;
+  padding: 0.65rem var(--page-padding);
+}
+
+.brand-link {
+  flex: 0 0 auto;
+}
+
+.logo img {
+  width: clamp(9.5rem, 16vw, 14rem);
+  max-height: 4.25rem;
+  object-fit: contain;
+}
+
+.nav-toggle {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  color: #ffffff;
+  border: 1px solid rgb(255 255 255 / 45%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 10%);
+}
+
+.nav-content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1rem, 2vw, 2rem);
+  min-width: 0;
+}
+
+.nav-content ul,
+.user-actions {
+  display: flex;
+  align-items: center;
+}
+
+.nav-content ul {
+  gap: clamp(0.25rem, 1vw, 1rem);
+}
+
+.nav-content ul a {
+  display: block;
+  padding: 0.7rem 0.8rem;
+  border-radius: 999px;
+  font-family: "Quicksand", sans-serif;
+  font-size: clamp(0.92rem, 1vw, 1.05rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.nav-content ul a:hover {
+  color: var(--color-primary-dark);
+  background: #ffffff;
+}
+
+.user-actions {
+  justify-content: flex-end;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.username {
+  max-width: clamp(8rem, 14vw, 14rem);
+  overflow: hidden;
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logOut-btn,
+.cart {
+  flex: 0 0 auto;
+  color: #ffffff;
+  background: transparent;
+}
+
+.logOut-btn {
+  min-height: 2.75rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: background 180ms ease;
+}
+
+.logOut-btn:hover {
+  background: var(--color-primary-dark);
+}
+
+.cart {
+  position: relative;
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 14%);
+}
+
+.cart svg {
+  width: 1.65rem;
+  height: 1.65rem;
+}
+
+.item_total {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.2rem;
+  display: grid;
+  min-width: 1.45rem;
+  height: 1.45rem;
+  padding: 0 0.25rem;
+  place-items: center;
+  border: 2px solid var(--color-primary);
+  border-radius: 999px;
+  color: #ffffff;
+  background: #b53861;
+  font-size: 0.72rem;
+  font-weight: 700;
+}

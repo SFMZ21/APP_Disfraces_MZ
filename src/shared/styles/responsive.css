@@ -1,0 +1,375 @@
+/* Tablet */
+@media (max-width: 64rem) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .navbar-inner {
+    flex-wrap: wrap;
+  }
+
+  .nav-content {
+    display: none;
+    flex: 1 0 100%;
+    align-items: stretch;
+    padding: 0.5rem 0 0.35rem;
+    border-top: 1px solid rgb(255 255 255 / 28%);
+  }
+
+  .nav-content.is-open {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .nav-content ul {
+    align-items: stretch;
+  }
+
+  .user-actions {
+    min-width: 0;
+  }
+
+  .detalles {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "summary"
+      "gallery"
+      "booking"
+      "description"
+      "related";
+  }
+
+  .reservar {
+    width: min(100%, 36rem);
+    justify-self: center;
+  }
+
+  .admin-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Móvil grande */
+@media (max-width: 48rem) {
+  .login-general {
+    align-items: start;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .login-container {
+    display: block;
+    min-height: 100dvh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .login-form {
+    min-height: 100dvh;
+    justify-content: center;
+    padding: clamp(1.25rem, 8vw, 2.5rem);
+  }
+
+  .logo-login {
+    display: none;
+  }
+
+  .navbar-inner {
+    min-height: 4.75rem;
+  }
+
+  .logo img {
+    width: 9.5rem;
+  }
+
+  .nav-content.is-open {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .nav-content ul {
+    flex-direction: column;
+  }
+
+  .nav-content ul li,
+  .nav-content ul a {
+    width: 100%;
+  }
+
+  .nav-content ul a {
+    padding: 0.75rem;
+    text-align: center;
+  }
+
+  .user-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    width: 100%;
+  }
+
+  .username {
+    max-width: none;
+  }
+
+  .slider-container {
+    border-radius: var(--radius-md);
+  }
+
+  .slider-image {
+    height: clamp(11rem, 58vw, 20rem);
+  }
+
+  .slider-container .slick-prev,
+  .slider-container .slick-next,
+  .product-carousel .slick-prev,
+  .product-carousel .slick-next {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .pedido {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pedido h3,
+  .pedido h4,
+  .pedido ul {
+    grid-column: auto;
+  }
+
+  .precio_tamaño {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .image-container,
+  .image-container img {
+    min-height: 15rem;
+    height: min(100vw, 26rem);
+  }
+
+  .carrito_item {
+    grid-template-columns: 4.25rem minmax(0, 1fr) auto;
+  }
+
+  .carrito_item > img {
+    width: 4.25rem;
+    height: 4.25rem;
+  }
+
+  .remove_item {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .quantity-controls {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, auto);
+    justify-content: end;
+  }
+
+  .modalProducto-content form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .modalProducto-content .buttonPN {
+    grid-column: auto;
+  }
+
+  .admin-panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-card {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 0.75rem 1rem;
+    text-align: left;
+  }
+
+  .admin-card img {
+    grid-row: 1 / 3;
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .admin-card h2 {
+    align-self: end;
+    margin: 0;
+  }
+
+  .admin-action {
+    align-self: start;
+  }
+
+  .table-scroll {
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  table,
+  thead,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  tbody tr {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  tbody tr + tr {
+    margin-top: 1rem;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #ffffff;
+  }
+
+  td,
+  tbody tr:last-child td {
+    display: grid;
+    grid-template-columns: minmax(6rem, 38%) minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    padding: 0.75rem 0.9rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  td::before {
+    content: attr(data-label);
+    color: var(--color-primary-dark);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  td:last-child {
+    border-bottom: 0;
+  }
+
+  .table-actions,
+  .order-actions {
+    display: grid;
+    grid-template-columns: minmax(6rem, 38%) minmax(0, 1fr);
+  }
+
+  .table-actions button,
+  .order-actions button {
+    grid-column: 2;
+    width: 100%;
+  }
+}
+
+/* Móvil compacto */
+@media (max-width: 30rem) {
+  :root {
+    --page-padding: 0.85rem;
+  }
+
+  .navbar-inner {
+    padding-right: 0.85rem;
+    padding-left: 0.85rem;
+  }
+
+  .user-actions {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .username {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  .logOut-btn {
+    width: 100%;
+  }
+
+  .detalles .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .react-datepicker__month {
+    margin: 0.35rem !important;
+  }
+
+  .react-datepicker__day,
+  .react-datepicker__day-name {
+    margin: 0 !important;
+    font-size: 0.8rem;
+  }
+
+  .carrito_center {
+    padding-right: 0.85rem;
+    padding-left: 0.85rem;
+  }
+
+  .carrito_item {
+    gap: 0.6rem;
+    padding: 0.75rem;
+  }
+
+  .modal-overlay,
+  .modalProducto {
+    padding: 0;
+    align-items: end;
+  }
+
+  .modal,
+  .modalProducto-content {
+    width: 100%;
+    max-height: 94dvh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .admin-card {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+  }
+
+  .admin-card img {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  td,
+  .table-actions,
+  .order-actions {
+    grid-template-columns: minmax(5.25rem, 34%) minmax(0, 1fr);
+  }
+}
+
+@media (hover: none) {
+  .producto:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

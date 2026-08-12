@@ -1,0 +1,27 @@
+/* Alertas de SweetAlert */
+.swal-modal {
+  width: min(calc(100% - 2rem), 30rem);
+  margin: 1rem;
+  border-radius: var(--radius-md);
+}
+.swal-button {
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+}
+
+/* Estados interactivos */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #164f59;
+  outline-offset: 3px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgb(77 158 170 / 18%);
+}

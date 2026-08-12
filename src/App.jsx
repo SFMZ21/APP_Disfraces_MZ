@@ -8,6 +8,7 @@ import { PurchaseAnalyticsProvider } from "./context/purchaseTimeContext";
 import { CartProvider } from "./features/cart/context/CartContext";
 import { CatalogProvider } from "./features/catalog/context/CatalogContext";
 import { ReservationProvider } from "./features/reservations/context/ReservationContext";
+import { PageState } from "./shared/components/PageState";
 
 const Login = lazy(() =>
   import("./components/Login/login").then((module) => ({ default: module.Login })),
@@ -75,36 +76,36 @@ function App() {
         <CartProvider>
           <ReservationProvider>
             <PurchaseAnalyticsProvider>
-          <div className="App">
-            <Suspense fallback={<p className="page-status">Cargando…</p>}>
-              <Routes>
-                <Route path="/" element={<AppShell><Inicio /></AppShell>} />
-                <Route
-                  path="/productos"
-                  element={<AppShell><ListaProductos /></AppShell>}
-                />
-                <Route
-                  path="/productos/:id"
-                  element={<AppShell><ProductoCatalogo /></AppShell>}
-                />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route
-                  path="/adminPanel"
-                  element={<AdminShell><AdminPanel /></AdminShell>}
-                />
-                <Route
-                  path="/adminPanel/pedidosAdmin"
-                  element={<AdminShell><PedidosAdmin /></AdminShell>}
-                />
-                <Route
-                  path="/adminPanel/inventario"
-                  element={<AdminShell><Inventario /></AdminShell>}
-                />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </div>
+              <div className="App">
+                <Suspense fallback={<PageState>Cargando…</PageState>}>
+                  <Routes>
+                    <Route path="/" element={<AppShell><Inicio /></AppShell>} />
+                    <Route
+                      path="/productos"
+                      element={<AppShell><ListaProductos /></AppShell>}
+                    />
+                    <Route
+                      path="/productos/:id"
+                      element={<AppShell><ProductoCatalogo /></AppShell>}
+                    />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route
+                      path="/adminPanel"
+                      element={<AdminShell><AdminPanel /></AdminShell>}
+                    />
+                    <Route
+                      path="/adminPanel/pedidosAdmin"
+                      element={<AdminShell><PedidosAdmin /></AdminShell>}
+                    />
+                    <Route
+                      path="/adminPanel/inventario"
+                      element={<AdminShell><Inventario /></AdminShell>}
+                    />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </Suspense>
+              </div>
             </PurchaseAnalyticsProvider>
           </ReservationProvider>
         </CartProvider>

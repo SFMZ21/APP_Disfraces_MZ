@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { usePurchaseAnalytics } from "../../context/purchaseTimeContext";
 import { useCatalog } from "../../features/catalog/context/CatalogContext";
+import { PageState } from "../../shared/components/PageState";
 import { ProductoItem } from "./ProductoItem";
 
 export function ListaProductos() {
@@ -14,10 +15,10 @@ export function ListaProductos() {
   return (
     <main>
       <h1 className="title">Productos</h1>
-      {loading && <p className="page-status" role="status">Cargando catálogo…</p>}
-      {error && <p className="error-message" role="alert">{error}</p>}
+      {loading && <PageState>Cargando catálogo…</PageState>}
+      {error && <PageState kind="error">{error}</PageState>}
       {!loading && !error && products.length === 0 && (
-        <p className="page-status">Todavía no hay productos disponibles.</p>
+        <PageState role="status">Todavía no hay productos disponibles.</PageState>
       )}
       <div className="productos">
         {products.map((producto) => (

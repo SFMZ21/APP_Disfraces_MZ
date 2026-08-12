@@ -10,6 +10,7 @@ import { useCart } from "../../features/cart/context/CartContext";
 import { CART_RESULT } from "../../features/cart/model/cartModel";
 import { useCatalog } from "../../features/catalog/context/CatalogContext";
 import { useReservation } from "../../features/reservations/context/ReservationContext";
+import { PageState } from "../../shared/components/PageState";
 import { isReservationRangeValid } from "../../utils/reservation";
 import CarouselSlider from "./carouselSlider";
 import { ProductoItem } from "./ProductoItem";
@@ -94,15 +95,15 @@ export function ProductoCatalogo() {
   };
 
   if (loading) {
-    return <p className="page-status" role="status">Cargando producto…</p>;
+    return <PageState>Cargando producto…</PageState>;
   }
 
   if (error) {
-    return <p className="error-message" role="alert">{error}</p>;
+    return <PageState kind="error">{error}</PageState>;
   }
 
   if (!product) {
-    return <p className="page-status">El producto solicitado no existe.</p>;
+    return <PageState role="status">El producto solicitado no existe.</PageState>;
   }
 
   return (
