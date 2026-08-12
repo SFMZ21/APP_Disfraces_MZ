@@ -1,0 +1,85 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function adminProfile(profile) {
+      return (profile.data.keys().hasAny(['role'])
+          && profile.data.role == 'admin')
+        || (profile.data.keys().hasAny(['rol'])
+          && profile.data.rol == 'administrador')
+        || (profile.data.keys().hasAny(['isAdmin'])
+          && profile.data.isAdmin == true);
+    }
+
+    function hasAdminProfile() {
+      let uidPath = /databases/$(database)/documents/users/$(request.auth.uid);
+      let emailPath = /databases/$(database)/documents/users/$(request.auth.token.email);
+      return (exists(uidPath) && adminProfile(get(uidPath)))
+        || (exists(emailPath) && adminProfile(get(emailPath)));
+    }
+
+    function isAdmin() {
+      return signedIn() && (
+        request.auth.token.admin == true ||
+        hasAdminProfile()
+      );
+    }
+
+    function ownsOrder(order) {
+      return signedIn() && (
+        (order.keys().hasAny(['ownerId'])
+          && order.ownerId == request.auth.uid)
+        || (order.keys().hasAny(['reserva'])
+          && order.reserva.keys().hasAny(['email'])
+          && order.reserva.email == request.auth.token.email)
+      );
+    }
+
+    match /items/{itemId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Se mantiene mientras se migra cualquier dato del proyecto anterior.
+    match /products/{productId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /pedidos/{orderId} {
+      allow read: if isAdmin() || ownsOrder(resource.data);
+      // Las mutaciones pasan por Cloud Functions para conservar inventario y
+      // pedidos dentro de una sola transacción validada.
+      allow create, update, delete: if false;
+    }
+
+    match /Bitacora/{entryId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && (
+        request.auth.uid == userId
+        || (resource.data.keys().hasAny(['uid'])
+          && resource.data.uid == request.auth.uid)
+        || isAdmin()
+      );
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.role == 'user'
+        && !request.resource.data.keys().hasAny(['password', 'isAdmin', 'rol']);
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

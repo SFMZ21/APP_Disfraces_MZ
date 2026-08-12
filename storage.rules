@@ -1,0 +1,54 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function profile(userId) {
+      return firestore.get(
+        /databases/(default)/documents/users/$(userId)
+      );
+    }
+
+    function adminProfile(userId) {
+      return (profile(userId).data.keys().hasAny(['role'])
+          && profile(userId).data.role == 'admin')
+        || (profile(userId).data.keys().hasAny(['rol'])
+          && profile(userId).data.rol == 'administrador')
+        || (profile(userId).data.keys().hasAny(['isAdmin'])
+          && profile(userId).data.isAdmin == true);
+    }
+
+    function hasAdminProfile(userId) {
+      return firestore.exists(
+        /databases/(default)/documents/users/$(userId)
+      ) && adminProfile(userId);
+    }
+
+    function isAdmin() {
+      return signedIn() && (
+        request.auth.token.admin == true
+        || hasAdminProfile(request.auth.uid)
+        || hasAdminProfile(request.auth.token.email)
+      );
+    }
+
+    function validImage() {
+      return request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    match /products/{allPaths=**} {
+      allow read: if signedIn();
+      allow write: if isAdmin() && validImage();
+    }
+
+    // Compatibilidad de lectura con las imágenes históricas guardadas en raíz.
+    match /{fileName} {
+      allow read: if signedIn();
+      allow write: if isAdmin() && validImage();
+    }
+  }
+}

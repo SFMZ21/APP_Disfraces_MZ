@@ -1,34 +1,71 @@
-import { collection, getDocs, query, where, doc, updateDoc } from "firebase/firestore";
-import { firestore } from "./firebase";
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
+import { cloudFunctions, firestore } from "./firebase";
 
-export const getPedidosByUserEmail = async (email) => {
-  const pedidosRef = collection(firestore, "pedidos");
-  const q = query(pedidosRef, where("reserva.email", "==", email));
+function snapshotOrders(snapshot) {
+  return snapshot.docs.map((order) => ({
+    id: order.id,
+    ...order.data(),
+  }));
+}
 
-  const querySnapshot = await getDocs(q);
-  const pedidos = [];
-  
+export function subscribeToUserOrders(user, onOrders, onError) {
+  const sources = {
+    canonical: [],
+    legacy: [],
+  };
 
-  querySnapshot.forEach((doc) => {
-    pedidos.push(doc.data());
-  });
+  const emit = () => {
+    const merged = new Map();
 
-  return pedidos;
-};
+    [...sources.canonical, ...sources.legacy].forEach((order) => {
+      merged.set(order.id, order);
+    });
 
-export const updatePedidoStatus = async (pedidoId, estado) => {
-  const pedidoRef = doc(firestore, "pedidos", pedidoId);
-  await updateDoc(pedidoRef, { estado });
-};
+    onOrders(
+      [...merged.values()].sort((left, right) => {
+        const leftTime = left.createdAt?.toMillis?.() ?? 0;
+        const rightTime = right.createdAt?.toMillis?.() ?? 0;
+        return rightTime - leftTime;
+      }),
+    );
+  };
 
-export const getPedidos = async () => {
-  const pedidosRef = collection(firestore, "pedidos");
-  const querySnapshot = await getDocs(pedidosRef);
-  const pedidos = [];
+  const ordersRef = collection(firestore, "pedidos");
+  const unsubscribers = [
+    onSnapshot(
+      query(ordersRef, where("ownerId", "==", user.uid)),
+      (snapshot) => {
+        sources.canonical = snapshotOrders(snapshot);
+        emit();
+      },
+      onError,
+    ),
+  ];
 
-  querySnapshot.forEach((doc) => {
-    pedidos.push(doc.data());
-  });
+  if (user.email) {
+    unsubscribers.push(
+      onSnapshot(
+        query(ordersRef, where("reserva.email", "==", user.email)),
+        (snapshot) => {
+          sources.legacy = snapshotOrders(snapshot);
+          emit();
+        },
+        onError,
+      ),
+    );
+  }
 
-  return pedidos;
-};
+  return () => unsubscribers.forEach((unsubscribe) => unsubscribe());
+}
+
+export async function updatePedidoStatus(orderId, status) {
+  const updateStatus = httpsCallable(cloudFunctions, "updateReservationStatus");
+  const response = await updateStatus({ orderId, status });
+  return response.data;
+}
