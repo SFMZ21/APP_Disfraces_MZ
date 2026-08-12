@@ -153,7 +153,7 @@ export function ProductoCatalogo() {
       </div>
 
       {relatedProducts.length > 0 && (
-        <section>
+        <section className="related-products">
           <h2>Productos relacionados</h2>
           <div className="productos">
             {relatedProducts.map((relatedProduct) => (

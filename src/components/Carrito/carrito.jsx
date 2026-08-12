@@ -53,7 +53,15 @@ export function Carrito() {
       <div
         className={menu ? "carritos show" : "carritos"}
         aria-hidden={!menu}
+        inert={!menu}
       >
+        <button
+          type="button"
+          className="cart-backdrop"
+          onClick={() => setMenu(false)}
+          aria-label="Cerrar carrito"
+          tabIndex={menu ? 0 : -1}
+        />
         <aside
           className={menu ? "carrito show" : "carrito"}
           role="dialog"

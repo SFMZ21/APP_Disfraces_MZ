@@ -101,14 +101,14 @@ export function PedidosAdmin() {
 
               return (
                 <tr key={reservation.id}>
-                  <td>{reservation.nombre} {reservation.apellido}</td>
-                  <td>{reservation.email}</td>
-                  <td>{reservation.telefono}</td>
-                  <td>{reservation.estado}</td>
-                  <td>{reservation.startDate?.toLocaleDateString("es-GT") ?? "—"}</td>
-                  <td>{reservation.endDate?.toLocaleDateString("es-GT") ?? "—"}</td>
-                  <td>Q{reservation.total}</td>
-                  <td>
+                  <td data-label="Cliente">{reservation.nombre} {reservation.apellido}</td>
+                  <td data-label="Correo">{reservation.email}</td>
+                  <td data-label="Teléfono">{reservation.telefono}</td>
+                  <td data-label="Estado">{reservation.estado}</td>
+                  <td data-label="Inicio">{reservation.startDate?.toLocaleDateString("es-GT") ?? "—"}</td>
+                  <td data-label="Fin">{reservation.endDate?.toLocaleDateString("es-GT") ?? "—"}</td>
+                  <td data-label="Total">Q{reservation.total}</td>
+                  <td data-label="Productos">
                     <ul>
                       {(reservation.carrito ?? []).map((item) => (
                         <li key={item.documentId ?? item.id}>
@@ -117,7 +117,7 @@ export function PedidosAdmin() {
                       ))}
                     </ul>
                   </td>
-                  <td className="order-actions">
+                  <td data-label="Acciones" className="order-actions">
                     {reservation.estado === "en Proceso" && (
                       <button
                         type="button"

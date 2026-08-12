@@ -123,9 +123,9 @@ export function Inventario() {
 
               return (
                 <tr key={product.documentId}>
-                  <td>{product.title}</td>
-                  <td>{product.category}</td>
-                  <td>
+                  <td data-label="Título">{product.title}</td>
+                  <td data-label="Categoría">{product.category}</td>
+                  <td data-label="Precio">
                     {isEditing ? (
                       <input
                         type="number"
@@ -140,8 +140,8 @@ export function Inventario() {
                       `Q${product.price}`
                     )}
                   </td>
-                  <td>{product.size || "Única"}</td>
-                  <td>
+                  <td data-label="Talla">{product.size || "Única"}</td>
+                  <td data-label="En stock">
                     {isEditing ? (
                       <input
                         type="number"
@@ -157,19 +157,19 @@ export function Inventario() {
                       product.enStock
                     )}
                   </td>
-                  <td>{product.enUso}</td>
-                  <td>
+                  <td data-label="En uso">{product.enUso}</td>
+                  <td data-label="Acciones" className="table-actions">
                     {isEditing ? (
                       <>
-                        <button type="button" onClick={() => saveProduct(product)}>
+                        <button className="btn-save" type="button" onClick={() => saveProduct(product)}>
                           Guardar
                         </button>
-                        <button type="button" onClick={cancelEditing}>
+                        <button className="btn-secondary" type="button" onClick={cancelEditing}>
                           Cancelar
                         </button>
                       </>
                     ) : (
-                      <button type="button" onClick={() => startEditing(product)}>
+                      <button className="btn-edit" type="button" onClick={() => startEditing(product)}>
                         Editar
                       </button>
                     )}
