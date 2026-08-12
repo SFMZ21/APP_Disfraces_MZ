@@ -7,7 +7,9 @@
     "node": "22"
   },
   "scripts": {
-    "test": "node --test test/*.test.js"
+    "test": "node --test --test-concurrency=1 test/*.test.js",
+    "migrate:legacy:dry-run": "node scripts/migrate-legacy-data.js",
+    "migrate:legacy:execute": "node scripts/migrate-legacy-data.js --execute"
   },
   "dependencies": {
     "firebase-admin": "^14.2.0",
