@@ -29,7 +29,8 @@ service firebase.storage {
 
     function isAdmin() {
       return signedIn() && (
-        request.auth.token.admin == true
+        (request.auth.token.keys().hasAny(['admin'])
+          && request.auth.token.admin == true)
         || hasAdminProfile(request.auth.uid)
         || hasAdminProfile(request.auth.token.email)
       );
