@@ -1,25 +1,11 @@
 import { useState } from "react";
-import { httpsCallable } from "firebase/functions";
 import { X } from "lucide-react";
 import swal from "sweetalert";
-import { cloudFunctions } from "../../firebase";
-import { useStore } from "../../context/DataProvider";
-import { usePurchaseTime } from "../../context/purchaseTimeContext";
-
-function callableErrorMessage(error) {
-  const code = error?.code ?? "";
-
-  if (code.includes("failed-precondition")) {
-    return error.message || "El inventario cambió. Revisa tu carrito.";
-  }
-  if (code.includes("unauthenticated")) {
-    return "Tu sesión terminó. Inicia sesión nuevamente.";
-  }
-  if (code.includes("invalid-argument")) {
-    return error.message || "Revisa los datos de la reserva.";
-  }
-  return "No fue posible completar la reserva. Intenta nuevamente.";
-}
+import { usePurchaseAnalytics } from "../../context/purchaseTimeContext";
+import { useCart } from "../../features/cart/context/CartContext";
+import { createReservation } from "../../features/reservations/api/reservationsApi";
+import { useReservation } from "../../features/reservations/context/ReservationContext";
+import { getUserErrorMessage } from "../../shared/errors/AppError";
 
 export default function ReservationForm({ onClose }) {
   const [form, setForm] = useState({
@@ -29,8 +15,9 @@ export default function ReservationForm({ onClose }) {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const { carrito, startDate, endDate, clearCart } = useStore();
-  const { PurchaseTimeStart, setPurchaseTimeEnd } = usePurchaseTime();
+  const { items, clearCart } = useCart();
+  const { startDate, endDate, clearReservationDates } = useReservation();
+  const { purchaseStartedAt, setPurchaseCompletedAt } = usePurchaseAnalytics();
 
   const handleChange = ({ target: { name, value } }) => {
     setForm((current) => ({ ...current, [name]: value }));
@@ -40,7 +27,7 @@ export default function ReservationForm({ onClose }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!startDate || !endDate || carrito.length === 0) {
+    if (!startDate || !endDate || items.length === 0) {
       setError("El carrito o las fechas de reserva ya no son válidos.");
       return;
     }
@@ -49,33 +36,30 @@ export default function ReservationForm({ onClose }) {
     setError("");
 
     try {
-      const createReservation = httpsCallable(
-        cloudFunctions,
-        "createReservation",
-      );
       const completedAt = new Date();
       const response = await createReservation({
         customer: form,
-        items: carrito.map((item) => ({
-          documentId: item.documentId,
-          quantity: item.quantity,
-        })),
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
-        purchaseStartedAt: (PurchaseTimeStart ?? new Date()).toISOString(),
+        items,
+        startDate,
+        endDate,
+        purchaseStartedAt: purchaseStartedAt ?? new Date(),
       });
 
-      setPurchaseTimeEnd(completedAt);
+      setPurchaseCompletedAt(completedAt);
       clearCart();
+      clearReservationDates();
       onClose();
       await swal({
         title: "¡Reserva realizada con éxito!",
-        text: `Total confirmado: Q${response.data.total}. Puedes pagar al recogerla.`,
+        text: `Total confirmado: Q${response.total}. Puedes pagar al recogerla.`,
         icon: "success",
       });
     } catch (reservationError) {
-      console.error("No fue posible crear la reserva:", reservationError);
-      setError(callableErrorMessage(reservationError));
+      console.error(reservationError);
+      setError(getUserErrorMessage(
+        reservationError,
+        "No fue posible completar la reserva. Intenta nuevamente.",
+      ));
     } finally {
       setSubmitting(false);
     }

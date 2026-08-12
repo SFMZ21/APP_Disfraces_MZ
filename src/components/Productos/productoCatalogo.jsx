@@ -5,8 +5,11 @@ import { addDays } from "date-fns";
 import { es } from "date-fns/locale";
 import swal from "sweetalert";
 import "react-datepicker/dist/react-datepicker.css";
-import { useStore } from "../../context/DataProvider";
-import { usePurchaseTime } from "../../context/purchaseTimeContext";
+import { usePurchaseAnalytics } from "../../context/purchaseTimeContext";
+import { useCart } from "../../features/cart/context/CartContext";
+import { CART_RESULT } from "../../features/cart/model/cartModel";
+import { useCatalog } from "../../features/catalog/context/CatalogContext";
+import { useReservation } from "../../features/reservations/context/ReservationContext";
 import { isReservationRangeValid } from "../../utils/reservation";
 import CarouselSlider from "./carouselSlider";
 import { ProductoItem } from "./ProductoItem";
@@ -15,41 +18,38 @@ registerLocale("es", es);
 
 export function ProductoCatalogo() {
   const { id } = useParams();
-  const {
-    productos,
-    productsLoading,
-    productsError,
-    addCarrito,
-  } = useStore();
-  const { PurchaseTimeStart, setPurchaseTimeStart } = usePurchaseTime();
+  const { products, loading, error } = useCatalog();
+  const { addItem } = useCart();
+  const { setReservationDates } = useReservation();
+  const { purchaseStartedAt, setPurchaseStartedAt } = usePurchaseAnalytics();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
   const product = useMemo(
     () =>
-      productos.find(
+      products.find(
         (item) => item.documentId === id || String(item.id) === String(id),
       ),
-    [id, productos],
+    [id, products],
   );
 
   const relatedProducts = useMemo(
     () =>
-      productos
+      products
         .filter(
           (item) =>
             item.documentId !== product?.documentId &&
             item.category === product?.category,
         )
         .slice(0, 6),
-    [product, productos],
+    [product, products],
   );
 
   useEffect(() => {
-    if (!PurchaseTimeStart) {
-      setPurchaseTimeStart(new Date());
+    if (!purchaseStartedAt) {
+      setPurchaseStartedAt(new Date());
     }
-  }, [PurchaseTimeStart, setPurchaseTimeStart]);
+  }, [purchaseStartedAt, setPurchaseStartedAt]);
 
   useEffect(() => {
     setStartDate(null);
@@ -80,15 +80,25 @@ export function ProductoCatalogo() {
       return;
     }
 
-    addCarrito(product.documentId, startDate, endDate);
+    const result = addItem(product);
+    if (result === CART_RESULT.DUPLICATE) {
+      swal({ title: "El producto ya está en el carrito.", icon: "warning" });
+      return;
+    }
+    if (result === CART_RESULT.INVALID_PRODUCT) {
+      swal({ title: "No se encontró el producto.", icon: "error" });
+      return;
+    }
+    setReservationDates(startDate, endDate);
+    swal({ title: "Producto añadido correctamente.", icon: "success" });
   };
 
-  if (productsLoading) {
+  if (loading) {
     return <p className="page-status" role="status">Cargando producto…</p>;
   }
 
-  if (productsError) {
-    return <p className="error-message" role="alert">{productsError}</p>;
+  if (error) {
+    return <p className="error-message" role="alert">{error}</p>;
   }
 
   if (!product) {

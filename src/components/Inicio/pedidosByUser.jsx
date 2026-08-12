@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext";
-import { subscribeToUserOrders } from "../../firebaseUtils";
+import { subscribeUserOrders } from "../../features/reservations/api/reservationsApi";
 import Pedido from "./pedido";
 
 export default function PedidosByUser() {
@@ -12,7 +12,7 @@ export default function PedidosByUser() {
   useEffect(() => {
     if (!user) return undefined;
 
-    const unsubscribe = subscribeToUserOrders(
+    const unsubscribe = subscribeUserOrders(
       user,
       (orders) => {
         setPedidos(orders);
@@ -20,8 +20,8 @@ export default function PedidosByUser() {
         setLoading(false);
       },
       (subscriptionError) => {
-        console.error("No fue posible cargar los pedidos:", subscriptionError);
-        setError("No fue posible cargar tus pedidos.");
+        console.error(subscriptionError);
+        setError(subscriptionError.userMessage || "No fue posible cargar tus pedidos.");
         setLoading(false);
       },
     );

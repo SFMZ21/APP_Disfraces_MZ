@@ -50,7 +50,7 @@ export default [
     rules: js.configs.recommended.rules,
   },
   {
-    files: ["src/context/*.jsx"],
+    files: ["src/**/context/*.jsx"],
     rules: {
       "react-refresh/only-export-components": "off",
     },

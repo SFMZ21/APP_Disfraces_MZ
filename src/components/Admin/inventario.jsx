@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { firestore } from "../../firebase";
-
-function asNumber(value, fallback = 0) {
-  const number = Number(value);
-  return Number.isFinite(number) ? number : fallback;
-}
+import {
+  subscribeInventory,
+  updateProductInventory,
+} from "../../features/catalog/api/catalogApi";
+import { getUserErrorMessage } from "../../shared/errors/AppError";
 
 export function Inventario() {
   const [productos, setProductos] = useState([]);
@@ -15,28 +13,14 @@ export function Inventario() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(firestore, "items"),
-      (snapshot) => {
-        setProductos(
-          snapshot.docs.map((product) => {
-            const data = product.data();
-            const total = asNumber(data.cantidad, 1);
-            const inUse = asNumber(data.enUso);
-            return {
-              documentId: product.id,
-              ...data,
-              cantidad: total,
-              enUso: inUse,
-              enStock: asNumber(data.enStock, Math.max(0, total - inUse)),
-            };
-          }),
-        );
+    const unsubscribe = subscribeInventory(
+      (products) => {
+        setProductos(products);
         setError("");
       },
-      (snapshotError) => {
-        console.error("No fue posible cargar el inventario:", snapshotError);
-        setError("No fue posible cargar el inventario.");
+      (subscriptionError) => {
+        console.error(subscriptionError);
+        setError(getUserErrorMessage(subscriptionError, "No fue posible cargar el inventario."));
       },
     );
 
@@ -78,15 +62,16 @@ export function Inventario() {
     }
 
     try {
-      await updateDoc(doc(firestore, "items", product.documentId), {
+      await updateProductInventory(product.documentId, {
         price,
-        enStock: stock,
-        cantidad: Math.max(product.cantidad, stock + product.enUso),
+        stock,
+        total: product.cantidad,
+        inUse: product.enUso,
       });
       cancelEditing();
     } catch (updateError) {
-      console.error("No fue posible actualizar el producto:", updateError);
-      setError("No fue posible actualizar el producto.");
+      console.error(updateError);
+      setError(getUserErrorMessage(updateError, "No fue posible actualizar el producto."));
     }
   };
 

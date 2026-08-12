@@ -1,17 +1,4 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { connectAuthEmulator, getAuth } from "firebase/auth";
-import {
-  connectFirestoreEmulator,
-  getFirestore,
-} from "firebase/firestore";
-import {
-  connectStorageEmulator,
-  getStorage,
-} from "firebase/storage";
-import {
-  connectFunctionsEmulator,
-  getFunctions,
-} from "firebase/functions";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -40,25 +27,12 @@ if (missingKeys.length > 0) {
   );
 }
 
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+export const firebaseApp = getApps().length > 0
+  ? getApp()
+  : initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const firestore = getFirestore(app);
-export const storage = getStorage(app);
-export const cloudFunctions = getFunctions(app, "us-central1");
-
-const shouldUseEmulators =
+export const useFirebaseEmulators =
   import.meta.env.DEV && import.meta.env.VITE_USE_FIREBASE_EMULATORS === "true";
-
-if (shouldUseEmulators && !globalThis.__DISFRACES_FIREBASE_EMULATORS__) {
-  connectAuthEmulator(auth, "http://127.0.0.1:9099", {
-    disableWarnings: true,
-  });
-  connectFirestoreEmulator(firestore, "127.0.0.1", 8080);
-  connectStorageEmulator(storage, "127.0.0.1", 9199);
-  connectFunctionsEmulator(cloudFunctions, "127.0.0.1", 5001);
-  globalThis.__DISFRACES_FIREBASE_EMULATORS__ = true;
-}
 
 if (
   import.meta.env.PROD &&
@@ -67,11 +41,29 @@ if (
 ) {
   import("firebase/analytics")
     .then(async ({ getAnalytics, isSupported }) => {
-      if (await isSupported()) {
-        getAnalytics(app);
-      }
+      if (await isSupported()) getAnalytics(firebaseApp);
     })
     .catch(() => {
       // Analytics es opcional y nunca debe impedir que cargue la aplicación.
+    });
+}
+
+if (
+  import.meta.env.PROD &&
+  import.meta.env.VITE_ENABLE_FIREBASE_APP_CHECK === "true" &&
+  import.meta.env.VITE_FIREBASE_APP_CHECK_SITE_KEY &&
+  typeof window !== "undefined"
+) {
+  import("firebase/app-check")
+    .then(({ initializeAppCheck, ReCaptchaV3Provider }) => {
+      initializeAppCheck(firebaseApp, {
+        provider: new ReCaptchaV3Provider(
+          import.meta.env.VITE_FIREBASE_APP_CHECK_SITE_KEY,
+        ),
+        isTokenAutoRefreshEnabled: true,
+      });
+    })
+    .catch((error) => {
+      console.error("No fue posible inicializar Firebase App Check:", error);
     });
 }

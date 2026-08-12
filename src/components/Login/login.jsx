@@ -3,21 +3,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../images/LogoHada2.svg";
 import LogoGoogle from "../../images/google.png";
 import { useAuth } from "../../context/authContext";
-
-function readableAuthError(error) {
-  const code = error?.code ?? "";
-
-  if (code.includes("invalid-credential")) {
-    return "El correo o la contraseña no son correctos.";
-  }
-  if (code.includes("too-many-requests")) {
-    return "Hay demasiados intentos. Espera un momento y vuelve a intentar.";
-  }
-  if (code.includes("popup-closed")) {
-    return "Se cerró la ventana de Google antes de completar el acceso.";
-  }
-  return "No fue posible iniciar sesión. Intenta nuevamente.";
-}
+import { getUserErrorMessage } from "../../shared/errors/AppError";
 
 export function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -46,7 +32,7 @@ export function Login() {
       await login(credentials.email, credentials.password);
       navigate(destination, { replace: true });
     } catch (authError) {
-      setError(readableAuthError(authError));
+      setError(getUserErrorMessage(authError, "No fue posible iniciar sesión."));
     } finally {
       setSubmitting(false);
     }
@@ -60,7 +46,7 @@ export function Login() {
       await logInGoogle();
       navigate(destination, { replace: true });
     } catch (authError) {
-      setError(readableAuthError(authError));
+      setError(getUserErrorMessage(authError, "No fue posible iniciar sesión."));
     } finally {
       setSubmitting(false);
     }

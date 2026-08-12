@@ -5,34 +5,38 @@ import {
   useState,
 } from "react";
 
-const PurchaseTimeContext = createContext(null);
+const PurchaseAnalyticsContext = createContext(null);
 
-export function usePurchaseTime() {
-  const context = useContext(PurchaseTimeContext);
+export function usePurchaseAnalytics() {
+  const context = useContext(PurchaseAnalyticsContext);
 
   if (!context) {
-    throw new Error("usePurchaseTime debe usarse dentro de PurchaseTimeProvider.");
+    throw new Error(
+      "usePurchaseAnalytics debe usarse dentro de PurchaseAnalyticsProvider.",
+    );
   }
 
   return context;
 }
 
-export function PurchaseTimeProvider({ children }) {
-  const [PurchaseTimeStart, setPurchaseTimeStart] = useState(null);
-  const [PurchaseTimeEnd, setPurchaseTimeEnd] = useState(null);
+export function PurchaseAnalyticsProvider({ children }) {
+  // Valores informativos provenientes del navegador. No deben utilizarse para
+  // autorización, auditoría confiable ni decisiones del negocio.
+  const [purchaseStartedAt, setPurchaseStartedAt] = useState(null);
+  const [purchaseCompletedAt, setPurchaseCompletedAt] = useState(null);
   const value = useMemo(
     () => ({
-      PurchaseTimeStart,
-      setPurchaseTimeStart,
-      PurchaseTimeEnd,
-      setPurchaseTimeEnd,
+      purchaseStartedAt,
+      setPurchaseStartedAt,
+      purchaseCompletedAt,
+      setPurchaseCompletedAt,
     }),
-    [PurchaseTimeEnd, PurchaseTimeStart],
+    [purchaseCompletedAt, purchaseStartedAt],
   );
 
   return (
-    <PurchaseTimeContext.Provider value={value}>
+    <PurchaseAnalyticsContext.Provider value={value}>
       {children}
-    </PurchaseTimeContext.Provider>
+    </PurchaseAnalyticsContext.Provider>
   );
 }

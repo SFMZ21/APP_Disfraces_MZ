@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Trash2, X } from "lucide-react";
 import swal from "sweetalert";
-import { useStore } from "../../context/DataProvider";
+import { useCart } from "../../features/cart/context/CartContext";
+import { useReservation } from "../../features/reservations/context/ReservationContext";
 import ReservationForm from "./reservationForm";
 
 export function Carrito() {
   const {
-    menu,
-    setMenu,
-    carrito,
+    isOpen,
+    setIsOpen,
+    items,
     total,
-    startDate,
-    endDate,
-    updateCartQuantity,
-    removeFromCart,
-  } = useStore();
+    updateQuantity,
+    removeItem,
+  } = useCart();
+  const { startDate, endDate } = useReservation();
   const [showModal, setShowModal] = useState(false);
 
   const handleRemove = async (documentId) => {
@@ -26,12 +26,12 @@ export function Carrito() {
     });
 
     if (confirmed) {
-      removeFromCart(documentId);
+      removeItem(documentId);
     }
   };
 
   const handleOpenReservation = () => {
-    if (carrito.length === 0) {
+    if (items.length === 0) {
       swal({ title: "El carrito está vacío.", icon: "warning" });
       return;
     }
@@ -51,19 +51,19 @@ export function Carrito() {
   return (
     <>
       <div
-        className={menu ? "carritos show" : "carritos"}
-        aria-hidden={!menu}
-        inert={!menu}
+        className={isOpen ? "carritos show" : "carritos"}
+        aria-hidden={!isOpen}
+        inert={!isOpen}
       >
         <button
           type="button"
           className="cart-backdrop"
-          onClick={() => setMenu(false)}
+          onClick={() => setIsOpen(false)}
           aria-label="Cerrar carrito"
-          tabIndex={menu ? 0 : -1}
+          tabIndex={isOpen ? 0 : -1}
         />
         <aside
-          className={menu ? "carrito show" : "carrito"}
+          className={isOpen ? "carrito show" : "carrito"}
           role="dialog"
           aria-modal="true"
           aria-labelledby="cart-title"
@@ -71,17 +71,17 @@ export function Carrito() {
           <button
             type="button"
             className="carrito_close"
-            onClick={() => setMenu(false)}
+            onClick={() => setIsOpen(false)}
             aria-label="Cerrar carrito"
           >
             <X aria-hidden="true" />
           </button>
           <h2 id="cart-title">Tu carrito</h2>
           <div className="carrito_center">
-            {carrito.length === 0 ? (
+            {items.length === 0 ? (
               <p className="carritoVacio">Carrito vacío</p>
             ) : (
-              carrito.map((producto) => (
+              items.map((producto) => (
                 <article className="carrito_item" key={producto.documentId}>
                   <img src={producto.image} alt="" />
                   <div className="infoProducto">
@@ -93,7 +93,7 @@ export function Carrito() {
                     <button
                       type="button"
                       onClick={() =>
-                        updateCartQuantity(
+                        updateQuantity(
                           producto.documentId,
                           producto.quantity + 1,
                         )
@@ -107,7 +107,7 @@ export function Carrito() {
                     <button
                       type="button"
                       onClick={() =>
-                        updateCartQuantity(
+                        updateQuantity(
                           producto.documentId,
                           producto.quantity - 1,
                         )

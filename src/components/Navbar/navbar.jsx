@@ -3,10 +3,10 @@ import { Menu, ShoppingCart, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../images/LogoHeader6.svg";
 import { useAuth } from "../../context/authContext";
-import { useStore } from "../../context/DataProvider";
+import { useCart } from "../../features/cart/context/CartContext";
 
 export function Navbar() {
-  const { menu, setMenu, carrito } = useStore();
+  const { isOpen, setIsOpen, items } = useCart();
   const { logOut, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,12 +77,12 @@ export function Navbar() {
             <button
               type="button"
               className="cart"
-              onClick={() => setMenu(!menu)}
-              aria-label={`Abrir carrito con ${carrito.length} productos`}
-              aria-expanded={menu}
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={`Abrir carrito con ${items.length} productos`}
+              aria-expanded={isOpen}
             >
               <ShoppingCart aria-hidden="true" />
-              <span className="item_total">{carrito.length}</span>
+              <span className="item_total">{items.length}</span>
             </button>
           </div>
         </div>

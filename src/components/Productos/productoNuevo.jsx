@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import { useAuth } from "../../context/authContext";
+import { createProduct } from "../../features/catalog/api/catalogApi";
+import { getUserErrorMessage } from "../../shared/errors/AppError";
 
 const initialForm = {
   title: "",
@@ -21,7 +22,6 @@ export function ProductoNuevo({ onClose }) {
   const [formData, setFormData] = useState(initialForm);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
-  const { newProduct } = useAuth();
 
   const handleInputChange = ({ target }) => {
     const { name, value, files } = target;
@@ -60,11 +60,11 @@ export function ProductoNuevo({ onClose }) {
     setError("");
 
     try {
-      await newProduct(formData);
+      await createProduct(formData);
       onClose();
     } catch (uploadError) {
-      console.error("No fue posible agregar el producto:", uploadError);
-      setError(uploadError.message || "No fue posible agregar el producto.");
+      console.error(uploadError);
+      setError(getUserErrorMessage(uploadError, "No fue posible agregar el producto."));
     } finally {
       setIsUploading(false);
     }

@@ -4,8 +4,10 @@ import { Navbar } from "./components/Navbar/navbar";
 import { Carrito } from "./components/Carrito/carrito";
 import { ProtectedRoute } from "./components/Login/protectedRoutes";
 import { AuthProvider } from "./context/authContext";
-import { DataProvider } from "./context/DataProvider";
-import { PurchaseTimeProvider } from "./context/purchaseTimeContext";
+import { PurchaseAnalyticsProvider } from "./context/purchaseTimeContext";
+import { CartProvider } from "./features/cart/context/CartContext";
+import { CatalogProvider } from "./features/catalog/context/CatalogContext";
+import { ReservationProvider } from "./features/reservations/context/ReservationContext";
 
 const Login = lazy(() =>
   import("./components/Login/login").then((module) => ({ default: module.Login })),
@@ -69,8 +71,10 @@ function AdminShell({ children }) {
 function App() {
   return (
     <AuthProvider>
-      <DataProvider>
-        <PurchaseTimeProvider>
+      <CatalogProvider>
+        <CartProvider>
+          <ReservationProvider>
+            <PurchaseAnalyticsProvider>
           <div className="App">
             <Suspense fallback={<p className="page-status">Cargando…</p>}>
               <Routes>
@@ -101,8 +105,10 @@ function App() {
               </Routes>
             </Suspense>
           </div>
-        </PurchaseTimeProvider>
-      </DataProvider>
+            </PurchaseAnalyticsProvider>
+          </ReservationProvider>
+        </CartProvider>
+      </CatalogProvider>
     </AuthProvider>
   );
 }

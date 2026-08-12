@@ -2,18 +2,7 @@ import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Logo from "../../images/BienvenidaHada.svg";
 import { useAuth } from "../../context/authContext";
-
-function readableRegistrationError(error) {
-  const code = error?.code ?? "";
-
-  if (code.includes("email-already-in-use")) {
-    return "Ya existe una cuenta con ese correo.";
-  }
-  if (code.includes("weak-password")) {
-    return "La contraseña no cumple los requisitos de seguridad.";
-  }
-  return "No fue posible crear la cuenta. Intenta nuevamente.";
-}
+import { getUserErrorMessage } from "../../shared/errors/AppError";
 
 export function Register() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -40,7 +29,7 @@ export function Register() {
       await registro(credentials.email, credentials.password);
       navigate("/", { replace: true });
     } catch (registrationError) {
-      setError(readableRegistrationError(registrationError));
+      setError(getUserErrorMessage(registrationError, "No fue posible crear la cuenta."));
     } finally {
       setSubmitting(false);
     }

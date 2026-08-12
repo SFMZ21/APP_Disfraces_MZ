@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { collection, onSnapshot } from "firebase/firestore";
 import swal from "sweetalert";
-import { firestore } from "../../firebase";
-import { updatePedidoStatus } from "../../firebaseUtils";
-
-function toDate(value) {
-  return value?.toDate?.() ?? (value ? new Date(value) : null);
-}
+import {
+  subscribeAdminOrders,
+  updateReservationStatus,
+} from "../../features/reservations/api/reservationsApi";
+import { RESERVATION_STATUS } from "../../shared/domain/reservationStatus";
+import { getUserErrorMessage } from "../../shared/errors/AppError";
 
 export function PedidosAdmin() {
   const [reservas, setReservas] = useState([]);
@@ -15,22 +14,14 @@ export function PedidosAdmin() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(firestore, "pedidos"),
-      (snapshot) => {
-        setReservas(
-          snapshot.docs.map((order) => ({
-            id: order.id,
-            ...order.data().reserva,
-            startDate: toDate(order.data().reserva?.startDate),
-            endDate: toDate(order.data().reserva?.endDate),
-          })),
-        );
+    const unsubscribe = subscribeAdminOrders(
+      (orders) => {
+        setReservas(orders);
         setError("");
       },
-      (snapshotError) => {
-        console.error("No fue posible cargar los pedidos:", snapshotError);
-        setError("No fue posible cargar los pedidos.");
+      (subscriptionError) => {
+        console.error(subscriptionError);
+        setError(getUserErrorMessage(subscriptionError, "No fue posible cargar los pedidos."));
       },
     );
 
@@ -52,13 +43,13 @@ export function PedidosAdmin() {
     setUpdatingOrderId(reservation.id);
 
     try {
-      await updatePedidoStatus(reservation.id, status);
+      await updateReservationStatus(reservation.id, status);
       await swal({ title: "Pedido actualizado.", icon: "success" });
     } catch (updateError) {
       console.error("No fue posible actualizar el pedido:", updateError);
       await swal({
         title: "No fue posible actualizar el pedido.",
-        text: updateError.message,
+        text: getUserErrorMessage(updateError, "No fue posible actualizar el pedido."),
         icon: "error",
       });
     } finally {
@@ -118,32 +109,35 @@ export function PedidosAdmin() {
                     </ul>
                   </td>
                   <td data-label="Acciones" className="order-actions">
-                    {reservation.estado === "en Proceso" && (
+                    {reservation.estado === RESERVATION_STATUS.PROCESSING && (
                       <button
                         type="button"
                         className="btn-alquiler"
                         disabled={isUpdating}
-                        onClick={() => handleStatusUpdate(reservation, "en Alquiler")}
+                        onClick={() => handleStatusUpdate(reservation, RESERVATION_STATUS.RENTED)}
                       >
                         Alquilar
                       </button>
                     )}
-                    {reservation.estado === "en Alquiler" && (
+                    {reservation.estado === RESERVATION_STATUS.RENTED && (
                       <button
                         type="button"
                         className="btn-completado"
                         disabled={isUpdating}
-                        onClick={() => handleStatusUpdate(reservation, "completado")}
+                        onClick={() => handleStatusUpdate(reservation, RESERVATION_STATUS.COMPLETED)}
                       >
                         Completar
                       </button>
                     )}
-                    {["en Proceso", "en Alquiler"].includes(reservation.estado) && (
+                    {[
+                      RESERVATION_STATUS.PROCESSING,
+                      RESERVATION_STATUS.RENTED,
+                    ].includes(reservation.estado) && (
                       <button
                         type="button"
                         className="btn-cancelar"
                         disabled={isUpdating}
-                        onClick={() => handleStatusUpdate(reservation, "cancelado")}
+                        onClick={() => handleStatusUpdate(reservation, RESERVATION_STATUS.CANCELLED)}
                       >
                         Cancelar
                       </button>
