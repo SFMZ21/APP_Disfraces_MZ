@@ -6,7 +6,7 @@ Firebase.
 
 ## Requisitos
 
-- Node.js 22
+- Node.js 22.23.2 (fijado en `.node-version`)
 - npm
 - Java 21 para Firebase Emulator Suite
 - Firebase CLI autenticado únicamente cuando se trabaje con un proyecto real
